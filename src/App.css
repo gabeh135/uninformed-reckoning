@@ -1,0 +1,18 @@
+#main-container {
+  place-items: center;
+}
+
+#answer-form {
+  max-width: 520px;
+}
+
+#round-button {
+  place-items: center;
+  margin: 5px;
+}
+
+.bottomTable {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 0;
+}

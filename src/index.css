@@ -1,0 +1,12 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+body {
+  display: grid;
+  min-height: 100vh;
+  background-color:aliceblue;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
