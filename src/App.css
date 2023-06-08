@@ -1,18 +1,24 @@
-#main-container {
-  place-items: center;
+.game-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  width: 1350px;
+  min-height: 520px;
+  height: min-content;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  margin: 1rem;
+  color: aliceblue;
+  opacity: .8;
+  font-size: 30px;
 }
 
-#answer-form {
-  max-width: 520px;
+.singlePlayerScore {
+  padding-left: 2rem;
+  font-size: 30px;
+  color: lightgray;
 }
 
-#round-button {
-  place-items: center;
-  margin: 5px;
-}
 
-.bottomTable {
-  position: fixed;
-  bottom: 0;
-  margin-bottom: 0;
-}

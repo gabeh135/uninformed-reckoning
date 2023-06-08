@@ -1,0 +1,50 @@
+.inputBox {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem;
+    width: 760px;
+    background-color: white;
+    height: 70px;
+  }
+  
+  .inputBox input {
+    padding-left: 1.5rem;
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    background-color: transparent;
+  }
+  
+  .inputBox input[type="number"]::-webkit-inner-spin-button,
+  .inputBox input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  
+  .submitBox {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+  }
+  
+  .submit {
+    padding: auto;
+    font-size: 20px;
+    color: #787878;
+    height: 70%;
+    border: 1px solid #787878;
+    border-radius: 10px;
+  }
+  
+  .submit:hover {
+    background-color: #787878;
+    color: #e9ecef;
+  }
+  

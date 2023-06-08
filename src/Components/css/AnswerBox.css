@@ -1,0 +1,25 @@
+.answerContainer {
+    border: 3px solid aliceblue;
+    border-radius: 20px;
+    padding: 1rem;
+    width: 760px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #a5d8ff69;
+  }
+  
+  .prompt {
+    margin-top: 1rem;
+  }
+
+  .answer {
+    font-size: 25px;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+  }
+  
+  .score {
+    font-size: 40px;
+  }
