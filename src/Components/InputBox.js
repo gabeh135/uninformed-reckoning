@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import './css/InputBox.css'
 
 export const InputBox = ({ input, setInput, currQuestion, handleSubmit }) => {
     const handleClick = (e) => {
         e.preventDefault();
-        if (!input == "") {
+        if (input != "") {
           handleSubmit();
         }
     }
@@ -26,3 +26,5 @@ export const InputBox = ({ input, setInput, currQuestion, handleSubmit }) => {
         </div>
     );
 }
+
+export default InputBox;

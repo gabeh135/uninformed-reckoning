@@ -17,22 +17,49 @@ const questionList = [
     { prompt: "How many species of fish are estimated to exist", answer: 33000, unit: "species", factor: "" }
   ];
   
-//ideas: highest score of something, more distance stuff, berg's members of congress thing. 
+//question ideas: highest score of something, more distance stuff, berg's members of congress thing. 
+
+export function calculateScore(input, question) {
+  const given = Number(input);
+  const expected = Number(question.answer);
+
+  if (given <= 0) {
+    return 0;
+  }
+
+  let baseScore;
+
+  if (given < expected) {
+    baseScore = 1 - (Math.log(expected) - Math.log(given));
+  } else if (given > expected) {
+    const logGiven = (2 * expected) - given; 
+    baseScore = 1 - (Math.log(expected) - Math.log(logGiven));
+  } else {
+    baseScore = 1;
+  }
+
+  return baseScore > 0 ? Math.floor(5000 * baseScore) : 0;
+}
+
+
+/*
+  let factor = 1.0;
+  
+  if (question.factor !== "") {
+    factor = Number(question.factor);
+  }
+  /*
 
 
 export function calculateScore(input, question) {
     const inputNumber = Number(input);
     const expectedNumber = Number(question.answer);
-    let factor = 1.0;
-  
-    if (question.factor !== "") {
-      factor = Number(question.factor);
-    }
+    
   
     const difference = Math.abs(inputNumber - expectedNumber);
   
     // Determine the benchmark distance based on the factor and expected answer
-    const benchmarkDistance = expectedNumber * factor;
+    const benchmarkDistance = expectedNumber * factor; //make dependent on percent error curve
   
     // Calculate the normalized distance as a fraction of the benchmark distance
     const normalizedDistance = difference / benchmarkDistance;
@@ -42,12 +69,11 @@ export function calculateScore(input, question) {
   
     // Ensure the score does not go below zero
     return Math.max(0, score);
-  }
+}
 
-  
-export const roundCount = 3;
+*/
 
-export function getGameQuestions() {
+export function getGameQuestions(roundCount) {
   const gameQuestions = questionList
     .sort(() => Math.random() - 0.5)
     .slice(0, roundCount);

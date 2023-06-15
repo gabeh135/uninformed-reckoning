@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import './App.css';
-import { getGameQuestions, roundCount, calculateScore } from './Questions.js';
-import { QuestionBox } from './Components/QuestionBox.js';
-import { AnswerBox } from './Components/AnswerBox.js';
-import { InputBox } from './Components/InputBox.js';
+import { getGameQuestions, calculateScore } from './Questions.js';
+import AnswerBox from './Components/AnswerBox.js'
+import InputBox from './Components/InputBox.js'
+import Leaderboard from './Components/Leaderboard.js'
+import QuestionBox from './Components/QuestionBox.js'
 
 function App() {
   const [questions, setQuestions] = useState(getGameQuestions())
   const [currQuestion, setCurrQuestion] = useState(questions[0])
   const [round, setRound] = useState(0)
+  const [roundCount, setRoundCount] = useState(3)
   const [score, setScore] = useState(0)
   const [timerCount, setTimerCount] = useState(20)
+  const [timerMax, setTimerMax] = useState(20);
   const [input, setInput] = useState("")
-  const [gameRun, setGameRun] = useState(true);
+  const [gameRun, setGameRun] = useState(true)
 
   function newRound() {
     var tempRound = round + 1;
     if (tempRound === (roundCount)) {
+      //newGame
       setQuestions(getGameQuestions());
       tempRound = 0;
     }
@@ -24,9 +28,16 @@ function App() {
     setRound(tempRound);
     setCurrQuestion(questions[tempRound]);
     setInput("");
-    setTimerCount(20);
+    setTimerCount(timerMax);
     setGameRun(true);
   }
+
+  /*
+  function newGame() {
+      setRound(0)
+      setQuestions(getGameQuestions());
+  }
+  */
 
   const handleSubmit = () => {
     setGameRun(false);
@@ -36,7 +47,13 @@ function App() {
   return (
     <div>
       <div className="singlePlayerScore">
-        Exit
+        <Leaderboard
+          barVal="top"
+          roundCount={roundCount}
+          setRoundCount={setRoundCount}
+          timerMax={timerMax}
+          setTimerMax={setTimerMax}
+        />
       </div>
       <div className="game-box">
         <QuestionBox 
@@ -67,11 +84,24 @@ function App() {
         ) }
       </div>
       <div className="singlePlayerScore">
-        { "Score: 0" }
+        <Leaderboard
+          barVal="bottom"
+        />
       </div>
     </div>
   );
 }
 
 export default App;
+
+/*
+<div className="singlePlayerScore">
+  Leaderboard
+</div>
+
+
+<div className="singlePlayerScore">
+  { "Score: 0" }
+</div>
+*/
 

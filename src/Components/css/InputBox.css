@@ -5,7 +5,7 @@
     justify-content: flex-end;
     margin: 1rem;
     width: 760px;
-    background-color: white;
+    background-color: #ffffff;
     height: 70px;
   }
   
@@ -37,14 +37,14 @@
   .submit {
     padding: auto;
     font-size: 20px;
-    color: #787878;
+    color: #757575;
     height: 70%;
-    border: 1px solid #787878;
+    border: 1px solid #757575;
     border-radius: 10px;
   }
   
   .submit:hover {
-    background-color: #787878;
+    background-color: #757575;
     color: #e9ecef;
   }
   

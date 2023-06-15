@@ -35,3 +35,5 @@ export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, ga
         </div>    
     );
 }
+
+export default QuestionBox;

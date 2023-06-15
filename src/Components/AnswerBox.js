@@ -18,8 +18,10 @@ export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
             ) }
             <div className="score">
                 { score + " point" }
-                { score != 1 ? ("s") : ("")}
+                { score !== 1 ? ("s") : ("")}
             </div>
         </div>    
     );
 }
+
+export default AnswerBox
