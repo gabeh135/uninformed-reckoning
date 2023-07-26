@@ -7,7 +7,7 @@ export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
             <div className="prompt">
                 {currQuestion.answer.toLocaleString() + " " + currQuestion.unit}
             </div>
-            { timerCount === 0 ? (
+            {timerCount === 0 ? (
                 <div className="answer">
                     {"You ran out of time!"}
                 </div>
@@ -15,12 +15,12 @@ export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
                 <div className="answer">
                     {"You were " + Math.abs(currQuestion.answer - input).toLocaleString() + " away!"}
                 </div>
-            ) }
+            )}
             <div className="score">
-                { score + " point" }
-                { score !== 1 ? ("s") : ("")}
+                {score + " point"}
+                {score !== 1 ? ("s") : ("")}
             </div>
-        </div>    
+        </div>
     );
 }
 

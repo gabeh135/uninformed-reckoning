@@ -1,57 +1,85 @@
-import './css/Leaderboard.css' 
+import './css/Leaderboard.css'
 import React, { useState } from 'react';
-import { getHighScore, getPlayerScore } from '../Players.js';
+import { createNewRoom } from '../utils/utils';
 
-export const Leaderboard = ( {barVal, roundCount, setRoundCount, timerMax, setTimerMax} ) => {   
+//extra temporary
+import { db } from '../utils/firebase';
+import { ref, set } from 'firebase/database';
+
+//this entire component is temporary and will likely change when game rooms implement
+export const Leaderboard = ({ barVal, roundCount, setRoundCount, timerMax, setTimerMax }) => {
     const [lbRounds, setLbRounds] = useState(roundCount);
     const [lbTime, setLbTime] = useState(timerMax);
-    
-    //temporary display of highscore
+
+    //changes number of rounds and will display highscore when implemented into datastore
     const handleLB = (e) => {
         e.preventDefault();
         if (lbRounds > 0) {
             setRoundCount(lbRounds);
-            alert("Highscore for " + lbRounds + " rounds is: " + getHighScore());
+
+            //temporary
+            set(ref(db, 'testing/roundData'), {
+                numRounds: lbRounds
+            });
         }
     }
+
+    //changes max timer value
     const handleTime = (e) => {
         e.preventDefault();
         if (lbTime > 0) {
             setTimerMax(lbTime);
+
+            //temporary
+            set(ref(db, 'testing/timer'), {
+                startVal: lbTime
+            });
         }
+    }
+
+    //TODO: be able to set a limit for rounds and time,
+    //give all this stuff a more permanent home
+    const handleRoom = (e) => {
+        e.preventDefault();
+        createNewRoom(lbRounds, lbTime);
     }
 
     return (
         <div className="singlePlayerScore">
-            { barVal === "top" ? (
+            {barVal === "top" ? (
                 <div className="topBar">
                     <form >
                         <button onClick={handleLB} >
-                            { roundCount + " rnds"}
+                            {roundCount + " rnds"}
                         </button>
-                        <input 
+                        <input
                             type="number"
                             onChange={(e) => setLbRounds(e.target.value)}
                         >
                         </input>
                     </form>
                     <form>
-                        <button onClick={handleTime} >
-                            { timerMax + " seconds"}
+                        <button onClick={handleTime}>
+                            {timerMax + " seconds"}
                         </button>
-                        <input 
+                        <input
                             type="number"
                             onChange={(e) => setLbTime(e.target.value)}
                         >
                         </input>
                     </form>
+                    <form>
+                        <button onClick={handleRoom}>
+                            {"New Room"}
+                        </button>
+                    </form>
                 </div>
             ) : (
                 <div className="bottomBar">
-                    {"Score: " + getPlayerScore()}
+                    { "Score: 0" }
                 </div>
-            ) }
-        </div>    
+            )}
+        </div>
     );
 }
 

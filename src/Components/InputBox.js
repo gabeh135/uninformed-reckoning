@@ -5,15 +5,15 @@ export const InputBox = ({ input, setInput, currQuestion, handleSubmit }) => {
     const handleClick = (e) => {
         e.preventDefault();
         if (input != "") {
-          handleSubmit();
+            handleSubmit();
         }
     }
 
     return (
         <div>
             <form className='inputBox shadow'>
-                <input 
-                    type="number" 
+                <input
+                    type="number"
                     placeholder={"Enter number of " + currQuestion.unit}
                     onChange={(e) => setInput(e.target.value)}
                 />

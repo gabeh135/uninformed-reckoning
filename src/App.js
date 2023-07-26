@@ -32,13 +32,6 @@ function App() {
     setGameRun(true);
   }
 
-  /*
-  function newGame() {
-      setRound(0)
-      setQuestions(getGameQuestions());
-  }
-  */
-
   const handleSubmit = () => {
     setGameRun(false);
     setScore(calculateScore(input, currQuestion));
@@ -56,7 +49,7 @@ function App() {
         />
       </div>
       <div className="game-box">
-        <QuestionBox 
+        <QuestionBox
           currQuestion={currQuestion}
           timerCount={timerCount}
           setTimerCount={setTimerCount}
@@ -66,22 +59,22 @@ function App() {
           handleSubmit={handleSubmit}
         />
 
-        { gameRun ?  (
+        {gameRun ? (
           <InputBox
-          input={input}
-          setInput={setInput}
-          currQuestion={currQuestion}
-          handleSubmit={handleSubmit}
-          newRound={newRound}
+            input={input}
+            setInput={setInput}
+            currQuestion={currQuestion}
+            handleSubmit={handleSubmit}
+            newRound={newRound}
           />
         ) : (
           <AnswerBox
-          input={input}
-          currQuestion={currQuestion}
-          score={score}
-          timerCount={timerCount}
+            input={input}
+            currQuestion={currQuestion}
+            score={score}
+            timerCount={timerCount}
           />
-        ) }
+        )}
       </div>
       <div className="singlePlayerScore">
         <Leaderboard
@@ -93,15 +86,3 @@ function App() {
 }
 
 export default App;
-
-/*
-<div className="singlePlayerScore">
-  Leaderboard
-</div>
-
-
-<div className="singlePlayerScore">
-  { "Score: 0" }
-</div>
-*/
-
