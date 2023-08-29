@@ -1,0 +1,21 @@
+.game-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    width: 1350px;
+    min-height: 520px;
+    height: min-content;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    margin: 1rem;
+    color: #f0f8ff;
+    font-size: 30px;
+  }
+  
+  .scoreboard {
+    padding-left: 2rem;
+    font-size: 30px;
+    color: lightgray;
+  }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './css/QuestionBox.css';
 
-export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, gameRun, newRound, handleSubmit }) => {
+export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, gameRun, newRound, handleSubmit, isHost, handleNext }) => {
     useEffect(() => {
         const time =
             gameRun && timerCount > 0 && setTimeout(() => setTimerCount(timerCount - 1), 1000);
@@ -10,6 +10,7 @@ export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, ga
         }
         return () => clearInterval(time);
     }, [timerCount]);
+
 
     return (
         <div className="infoContainer">
@@ -22,14 +23,14 @@ export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, ga
                 </div>
             </div>
             <div className="endContainer">
-                {gameRun ? (
+                {(!gameRun && isHost)? (
+                    <button  className="newButton" onClick={handleNext}>
+                    Next
+                    </button>
+                ) : (
                     <div className="timer">
                         {timerCount}
                     </div>
-                ) : (
-                    <button onClick={newRound} className="newButton">
-                        Next Round
-                    </button>
                 )}
             </div>
         </div>

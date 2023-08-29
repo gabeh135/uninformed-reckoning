@@ -1,0 +1,28 @@
+.resultContainer {
+    border: 3px solid #f0f8ff;
+    border-radius: 20px;
+    padding: 1rem;
+    width: 760px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #5eb4f691;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.15);
+  }
+  
+  .endMessage {
+    margin-top: 1rem;
+  }
+  
+  .winnerMessage {
+    font-size: 25px;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+  }
+  
+  .winnerScore {
+    font-size: 40px;
+  }
+  
+  

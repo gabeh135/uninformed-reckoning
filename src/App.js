@@ -1,88 +1,30 @@
-import React, { useState } from 'react';
-import './App.css';
-import { getGameQuestions, calculateScore } from './Questions.js';
-import AnswerBox from './Components/AnswerBox.js'
-import InputBox from './Components/InputBox.js'
-import Leaderboard from './Components/Leaderboard.js'
-import QuestionBox from './Components/QuestionBox.js'
+import { Route, Routes } from 'react-router-dom';
+import Room  from './Pages/Room.js';
+import Home from './Pages/Home.js'
 
+/*TODO:
+**finish multiplayer
+**restructure database and room's data structure
+**add temporary host functions such as next round and end game
+**add a scoreboard to bottom of room
+**room path to use a shorter string of numbers, maybe useLocations's key or host's id?
+
+*add permanent next round button and scoreboard css
+*adjustments to the ui/fix timer/redo css
+*add a return to home screen
+*ui for homescreen and a game-over screen
+*more questions
+*finalize scoring
+*add a permanent leaderboard in database with highscores per round number
+*    *building off of leaderboard, make presets for timer and number of rounds
+*/
 function App() {
-  const [questions, setQuestions] = useState(getGameQuestions())
-  const [currQuestion, setCurrQuestion] = useState(questions[0])
-  const [round, setRound] = useState(0)
-  const [roundCount, setRoundCount] = useState(3)
-  const [score, setScore] = useState(0)
-  const [timerCount, setTimerCount] = useState(20)
-  const [timerMax, setTimerMax] = useState(20);
-  const [input, setInput] = useState("")
-  const [gameRun, setGameRun] = useState(true)
-
-  function newRound() {
-    var tempRound = round + 1;
-    if (tempRound === (roundCount)) {
-      //newGame
-      setQuestions(getGameQuestions());
-      tempRound = 0;
-    }
-    setScore(0);
-    setRound(tempRound);
-    setCurrQuestion(questions[tempRound]);
-    setInput("");
-    setTimerCount(timerMax);
-    setGameRun(true);
-  }
-
-  const handleSubmit = () => {
-    setGameRun(false);
-    setScore(calculateScore(input, currQuestion));
-  }
-
   return (
-    <div>
-      <div className="singlePlayerScore">
-        <Leaderboard
-          barVal="top"
-          roundCount={roundCount}
-          setRoundCount={setRoundCount}
-          timerMax={timerMax}
-          setTimerMax={setTimerMax}
-        />
-      </div>
-      <div className="game-box">
-        <QuestionBox
-          currQuestion={currQuestion}
-          timerCount={timerCount}
-          setTimerCount={setTimerCount}
-          round={round}
-          gameRun={gameRun}
-          newRound={newRound}
-          handleSubmit={handleSubmit}
-        />
-
-        {gameRun ? (
-          <InputBox
-            input={input}
-            setInput={setInput}
-            currQuestion={currQuestion}
-            handleSubmit={handleSubmit}
-            newRound={newRound}
-          />
-        ) : (
-          <AnswerBox
-            input={input}
-            currQuestion={currQuestion}
-            score={score}
-            timerCount={timerCount}
-          />
-        )}
-      </div>
-      <div className="singlePlayerScore">
-        <Leaderboard
-          barVal="bottom"
-        />
-      </div>
-    </div>
-  );
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/rooms/:id" element={<Room />} />
+    </Routes>
+  )
 }
 
 export default App;

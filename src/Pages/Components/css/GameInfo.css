@@ -1,0 +1,39 @@
+.infoContainer {
+    width: 1300px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+.playerBox {
+    color: aliceblue;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    font-size: 50px;
+    max-width: 800px;
+    padding-left: 1rem;
+}
+
+.buttonContainer {
+    justify-self: end;
+}
+
+.newButton {
+    margin-top: 1rem;
+    padding: 1rem;
+    color: aliceblue;
+    font-size: 30px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    opacity: .9;
+    border-radius: 15px;
+    background-color: transparent;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.newButton:hover {
+    background-color: #5eb4f691;
+}

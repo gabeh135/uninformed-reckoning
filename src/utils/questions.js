@@ -1,9 +1,10 @@
-import { db } from './utils/firebase';
-import { ref, get, child } from 'firebase/database';
-import { snapshotToArray } from './utils/utils';
+import { useEffect, useState } from "react";
+import { db } from './firebase';
+import { ref, get, child, onValue } from 'firebase/database';
+import { snapshotToArray } from './utils';
 
+//TODO: make only host access this
 const questionList = await getQuestions();
-console.log(questionList);
 
 export function calculateScore(input, question) {
   const given = Number(input);
@@ -27,11 +28,11 @@ export function calculateScore(input, question) {
   return baseScore > 0 ? Math.floor(5000 * baseScore) : 0;
 }
 
+//TODO: get rid of snapshotToArray
 export async function getQuestions() {
   const dbRef = ref(db);
   return get(child(dbRef, `/questions`)).then((snapshot) => {
     if (snapshot.exists()) {
-      console.log(snapshot.val());
       return snapshotToArray(snapshot);
     } else {
       console.log("No data available");
@@ -39,23 +40,27 @@ export async function getQuestions() {
   }).catch((error) => {
     console.error(error);
   });
-/*
-var array = [];
-  for (var i = 0; i < roundCount; i++) {
-    var random;
-    do {
-      random = Math.floor(Math.random() * numQuestions);
-    }
-    while(array.includes(random));
-    array.push(random);
-  }
-*/
 }
 
-//make keys for chosen questions be based on database or host player 
-export function getGameQuestions(roundCount) {
+export function setGameQuestions(roundCount) {
   const gameQuestions = questionList
     .sort(() => Math.random() - 0.5)
     .slice(0, roundCount);
   return gameQuestions;
+}
+
+//TODO: move to gameData
+export const useGamePlayers = (id) => {
+  const [playerList, setPlayerList] = useState([])
+
+  useEffect(() => {
+    const playersRef = ref(db, 'rooms/' + id + '/playerIDs');
+    onValue(playersRef, (snapshot) => {
+      const players = snapshotToArray(snapshot)
+      setPlayerList(players)
+    });
+
+  }, [id]);
+
+  return { playerList };
 }
