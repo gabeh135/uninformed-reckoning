@@ -11,17 +11,17 @@
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.15);
   }
   
-  .endMessage {
+  .message {
     margin-top: 1rem;
   }
   
-  .winnerMessage {
+  .subMessage {
     font-size: 25px;
     margin-top: 1rem;
     margin-bottom: 4rem;
   }
   
-  .winnerScore {
+  .scoreMessage {
     font-size: 40px;
   }
   

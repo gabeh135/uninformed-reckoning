@@ -1,0 +1,103 @@
+.home-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 1350px;
+    min-height: 500px;
+    border-top: 2px solid red;
+    margin: 1rem;
+    color: #f0f8ff;
+    font-size: 30px;
+    padding: 2rem;
+}
+
+.display-container {
+    display: flex;
+    justify-content: center;
+    font-size: 62px;
+}
+
+.go-button {
+    border: 2px solid aliceblue;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 40px;
+    height: 55px;
+    width: 180px;
+    color: aliceblue;
+}
+
+.go-button:hover {
+    background-color: #5eb4f691;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 280px;
+    
+}
+
+.input-bubble {
+    width: 720px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.input-bubble input {
+    border: 3px solid orange;
+    border-radius: 10px;
+    background-color: #ffffff;
+    outline: none;
+    font-size: 20px;
+    width: 100%;
+    padding-left: 2rem;
+}
+
+.toggle-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 560px;
+    height: 60px;
+}
+
+.toggle-item {
+    display: flex;
+    justify-content: center;
+    max-width: 240px;
+}
+
+.toggle-text {
+    color: aliceblue;
+    opacity: .9;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+    background-color: #5eb4f691;
+    width: 240px;
+}
+
+.toggle-button {
+    color: aliceblue;
+    opacity: .9;
+    font-size: 30px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    background-color: transparent;
+    width: 240px;
+}
+
+.toggle-button:hover {
+    background-color: #5eb4f691;
+}

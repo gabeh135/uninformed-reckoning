@@ -27,8 +27,28 @@ export const useGameData = (id) => {
   const [score, setScore] = useState(0)
   const [input, setInput] = useState("")
   const [gameRun, setGameRun] = useState(true)
+  const [endGame, setEndGame] = useState(false)
   const [timerCount, setTimerCount] = useState(20)
   const [timerMax, setTimerMax] = useState(20)
+
+  /*
+    const [initialData, setInitialData] = useState({
+      questions: [],
+      roundCount: 3,
+      timerMax: 20,
+    })
+
+    const [roundData, setRoundData] = useState({
+      currQuestion: [],
+      round: 0,
+      input: "",
+      timerCount: 20,
+      gameRun: true,
+      roundScore: 0,
+    })
+  
+  
+  */
 
   useEffect(() => {
     const dbRef = ref(db)
@@ -57,22 +77,25 @@ export const useGameData = (id) => {
     //add functionality to check for game end
     onValue(ref(db, 'rooms/' + id + '/currentRound'), (snapshot) => {
       let value = snapshot.val()
-
-      //change to functions for end of game
-      if (value >= roundCount) value = 0
-
-      get(child(dbRef, 'rooms/' + id + '/questions')).then((snapshot) => {
-        const roomQuestions = snapshot.val()
-        setCurrQuestion(roomQuestions[value])
-      })
       setRound(value)
+      //change to functions for end of game
+      if (value === (roundCount)) { 
+        setEndGame(true)
+        value = 0 
+      }
+      else {
+        get(child(dbRef, 'rooms/' + id + '/questions')).then((snapshot) => {
+          const roomQuestions = snapshot.val()
+          setCurrQuestion(roomQuestions[value])
+        })
+        setGameRun(true)
+        setTimerMax(timerMax)
+      }
       setScore(0)
       setInput("")
-      setTimerCount(timerMax)
-      setGameRun(true)
     });
   }, [id])
 
 
-  return { questions, timerCount, setTimerCount, currQuestion, round, score, setScore, input, gameRun, setGameRun, setInput }
+  return { questions, timerCount, setTimerCount, currQuestion, round, endGame, score, setScore, input, gameRun, setGameRun, setInput }
 }

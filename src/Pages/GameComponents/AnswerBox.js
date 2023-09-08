@@ -1,6 +1,7 @@
 import React from 'react';
 import './css/AnswerBox.css';
 
+//const max = playerList.reduce((prev, current) => (prev.score > current.score) ? prev : current)
 export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
     return (
         <div className="answerContainer">

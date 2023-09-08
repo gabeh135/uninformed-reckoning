@@ -1,6 +1,7 @@
-import './css/Leaderboard.css'
 import React from 'react';
+import './css/Leaderboard.css'
 
+//TODO: add stuff on top here too
 export const Leaderboard = ({ barVal, playerList }) => {
     return (
         <table style={{ width: 500 }}>

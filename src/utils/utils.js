@@ -64,6 +64,7 @@ export async function createNewRoom(rounds, time) {
     const path = 'rooms/' + roomKey
     writeToDatabase(path, {
         currentRound: 0,
+        numReady: 0,
         maxRounds: rounds,
         playerIDs: "",
         questions: setGameQuestions(rounds),

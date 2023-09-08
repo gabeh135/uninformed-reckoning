@@ -1,10 +1,14 @@
 import React from 'react';
-import './css/GameInfo.css';
+import './css/ResultInfo.css';
+import { useNavigate } from 'react-router-dom'
 
-export const GameInfo = ({ playerList, userKey }) => {
+export const GameInfo = ({ self }) => {
+    const navigate = useNavigate();
+
+    //delete something when leaving?
     const handleEnd = (e) => {
         e.preventDefault();
-        alert("game over!")
+        navigate("/")
     }
 
     return (
@@ -14,12 +18,12 @@ export const GameInfo = ({ playerList, userKey }) => {
                     Your score was:
                 </div>
                 <div className="message">
-                    {" points"}
+                    {self.score + " points"}
                 </div>
             </div>
             <div className="buttonContainer">
                 <button  className="newButton" onClick={handleEnd}>
-                    Next
+                    Exit
                 </button>
             </div>
         </div>

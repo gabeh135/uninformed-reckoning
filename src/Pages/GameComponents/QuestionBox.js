@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './css/QuestionBox.css';
 
-export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, gameRun, newRound, handleSubmit, isHost, handleNext }) => {
+export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, gameRun, handleSubmit, isHost, handleNext }) => {
     useEffect(() => {
         const time =
             gameRun && timerCount > 0 && setTimeout(() => setTimerCount(timerCount - 1), 1000);

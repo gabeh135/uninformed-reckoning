@@ -48,19 +48,3 @@ export function setGameQuestions(roundCount) {
     .slice(0, roundCount);
   return gameQuestions;
 }
-
-//TODO: move to gameData
-export const useGamePlayers = (id) => {
-  const [playerList, setPlayerList] = useState([])
-
-  useEffect(() => {
-    const playersRef = ref(db, 'rooms/' + id + '/playerIDs');
-    onValue(playersRef, (snapshot) => {
-      const players = snapshotToArray(snapshot)
-      setPlayerList(players)
-    });
-
-  }, [id]);
-
-  return { playerList };
-}

@@ -1,39 +1,49 @@
 import React from 'react';
 import './Room.css';
 import { calculateScore } from '../utils/questions.js';
-import AnswerBox from './Components/AnswerBox.js'
-import InputBox from './Components/InputBox.js'
-import Leaderboard from './Components/Leaderboard.js'
-import QuestionBox from './Components/QuestionBox.js'
+
+//TODO: figure out how to turn this into one import if possible/recommended
+import AnswerBox from './GameComponents/AnswerBox.js'
+import InputBox from './GameComponents/InputBox.js'
+import Leaderboard from './GameComponents/Leaderboard.js'
+import QuestionBox from './GameComponents/QuestionBox.js'
+import ResultBox from './GameComponents/ResultBox.js'
+import ResultInfo from './GameComponents/ResultInfo.js'
+
 import { useLocation, useParams } from 'react-router-dom';
 import { getUserKeyForRoom, updateDatabase } from '../utils/utils';
 import { useGamePlayers, useGameData } from '../utils/gameData';
-     
-function Room() {
 
-  //change?
+//TODO: add unique css for post-round screen
+//TODO: styling for home page
+//TODO: restructure data + imports
+//TODO: restructure css (resultInfo + questionBox, resultBox + answerBox)
+
+//when finished with TODO's: add a lot more questions, finish scoring, dial for timer, touch up styling for everything, 
+//                           add a slider + min/max for time and rounds, slight background gradient, add a leaderboard,
+//                           go back button, add something saying 'waiting for host'
+function Room() {
   const { id } = useParams()
   const { state } = useLocation()
   const { isHost } = state
-  const userKey = getUserKeyForRoom(id)
 
+  const userKey = getUserKeyForRoom(id)
   const { playerList } = useGamePlayers(id);
 
-  //TODO: fix this
-  const { 
-    timerCount, 
-    setTimerCount, 
-    currQuestion, 
-    round, 
-    score, 
-    setScore, 
-    input, 
-    gameRun, 
-    setGameRun, 
-    setInput 
+  const {
+    timerCount,
+    setTimerCount,
+    currQuestion,
+    round,
+    endGame,
+    score,
+    setScore,
+    input,
+    gameRun,
+    setGameRun,
+    setInput
   } = useGameData(id)
 
-  //TODO: score to be moved to database, restructure this when I restructure game data
   const handleSubmit = () => {
     setGameRun(false);
     const path = 'rooms/' + id + '/playerIDs/' + userKey + '/score'
@@ -42,22 +52,42 @@ function Room() {
       return element.key === userKey;
     })
 
-    //delete after restructure
     setScore(newScore);
-
     updateDatabase(path, newScore + self.score)
   }
 
-  //end game value here?
   const handleNext = () => {
     const path = 'rooms/' + id + '/currentRound'
     updateDatabase(path, round + 1)
+
   }
 
+  if (endGame) {
+    return (
+      <div>
+        <div className="game-box">
+          <ResultInfo 
+            self={playerList.find((element) => {
+              //move this function into ResultInfo
+              return element.key === userKey;
+            })}
+          />
+          <ResultBox
+            playerList={playerList}
+            userKey={userKey}
+          />
+
+        </div>
+        <div className="scoreboard">
+          <Leaderboard
+            barVal="bottom"
+            playerList={playerList}
+          />
+        </div>
+      </div>
+    )
+  }
   return (
-    //TODO: add a end of game screen, will look similar to answer box, and could use the same with a little tweaking. 
-    //      { gamerun and current round < round count } => answer box, { current round >= round count } => post-game box
-    //      will include a button which routes back to home, as well as displaying who won, component will add to leaderbox
     <div>
       <div className="game-box">
         <QuestionBox
