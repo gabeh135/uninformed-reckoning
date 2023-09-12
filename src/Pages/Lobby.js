@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom'
 import { updateDatabase } from '../utils/utils'
 
 import { db } from '../utils/firebase'
-import { onValue, ref} from 'firebase/database'
+import { onValue, ref } from 'firebase/database'
 
 //move to utils or gamedata
 const useLobbyState = (roomID, hostToggle) => {
-    const [ numReady, setNumReady ] = useState(0);
-    const [ numPlayers, setNumPlayers ] = useState(1);
+    const [numReady, setNumReady] = useState(0);
+    const [numPlayers, setNumPlayers] = useState(1);
     const navigate = useNavigate()
-    
+
     useEffect(() => {
         onValue(ref(db, 'rooms/' + roomID + '/playerIDs'), (snapshot) => {
             const playerList = snapshotToArray(snapshot)
@@ -31,7 +31,7 @@ const useLobbyState = (roomID, hostToggle) => {
 }
 
 export const Lobby = ({ hostToggle, roomID }) => {
-    const [ ready, setReady ] = useState(false);
+    const [ready, setReady] = useState(false);
     const { numReady, numPlayers } = useLobbyState(roomID, hostToggle);
     const userKey = getUserKeyForRoom(roomID)
 
@@ -46,16 +46,20 @@ export const Lobby = ({ hostToggle, roomID }) => {
     //TODO: if player is host, add functionality to start game
     //TODO: display room key somewhere
     return (
-        <div>
-            <div>
-                {numReady + "/" + numPlayers + " players ready"}
+        <div className="lobby-container">
+            <div className="lobby-info">
+                <div>
+                    {"Key: " + roomID}
+                </div>
+                <div className="ready-info">
+                    {numReady + "/" + numPlayers + " players ready"}
+                </div>
             </div>
-            <button onClick={handleReady}>
+
+            <button onClick={handleReady} className="go-button">
                 Ready
             </button>
-            <div>
-                {"Room key: " + roomID}
-            </div>
+
         </div>
     );
 }

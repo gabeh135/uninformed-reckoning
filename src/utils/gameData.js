@@ -89,7 +89,7 @@ export const useGameData = (id) => {
           setCurrQuestion(roomQuestions[value])
         })
         setGameRun(true)
-        setTimerMax(timerMax)
+        setTimerCount(timerMax)
       }
       setScore(0)
       setInput("")

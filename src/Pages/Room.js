@@ -18,9 +18,10 @@ import { useGamePlayers, useGameData } from '../utils/gameData';
 //TODO: styling for home page
 //TODO: restructure data + imports
 //TODO: restructure css (resultInfo + questionBox, resultBox + answerBox)
+//TODO: timer doesn't count down at the moment, hide timer when answerBox
 
 //when finished with TODO's: add a lot more questions, finish scoring, dial for timer, touch up styling for everything, 
-//                           add a slider + min/max for time and rounds, slight background gradient, add a leaderboard,
+//                           slight background gradient, add a leaderboard,
 //                           go back button, add something saying 'waiting for host'
 function Room() {
   const { id } = useParams()
