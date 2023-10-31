@@ -3,8 +3,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    width: 1350px;
-    min-height: 500px;
+    width: 85vw;
+    min-height: 65vh;
     border-top: 2px solid black;
     margin: 1rem;
     color: #f0f8ff;
@@ -15,16 +15,19 @@
 .display-container {
     display: flex;
     justify-content: center;
-    font-size: 62px;
+    font-size: 59px;
+    text-align: center;
     color: lightgray;
 }
 
+
 .go-button {
-    border: 2px solid aliceblue;
+    border: 3px solid aliceblue;
     border-radius: 12px;
     background: transparent;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
     font-size: 50px;
-    height: 70px;
+    height: fit-content;
     width: 280px;
     color: aliceblue;
 }
@@ -33,13 +36,23 @@
     background-color: #5eb4f691;
 }
 
+.go-locked {
+    color: #757575d5;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+    border: 3px solid #6c6e71;
+    border-radius: 12px;
+    background-color: #a5a6a9;
+    font-size: 50px;
+    height: 10vh;
+    width: 280px;
+}
+
 .input-container {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     height: 280px;
-    
 }
 
 .input-bubble {
@@ -77,20 +90,6 @@
     max-width: 240px;
 }
 
-.toggle-text {
-    color: aliceblue;
-    opacity: .9;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    border: 3px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
-    background-color: #5eb4f691;
-    width: 240px;
-}
-
 .toggle-button {
     color: aliceblue;
     opacity: .9;
@@ -102,14 +101,33 @@
     width: 240px;
 }
 
+.toggle-button:after {
+    content: ' Game';
+}
+
+.toggle-active {
+    color: aliceblue;
+    opacity: .9;
+    font-size: 30px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    background-color: #5eb4f691;
+    width: 240px;
+}
+
+.toggle-active:after {
+    content: ' Game';
+}
+
 .toggle-button:hover {
     background-color: #5eb4f691;
 }
 
 .lobby-info {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    text-align: center;
 }
 
 .ready-info {
@@ -121,5 +139,47 @@
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 500px;
+    min-height: 460px;
+}
+
+@media screen and (max-width: 850px) {
+    .input-bubble {
+        width: 90vw;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .toggle-container {
+        min-height: auto;
+        overflow-wrap: break-word;
+        width: 65vw;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .toggle-container {
+        min-height: auto;
+        overflow-wrap: break-word;
+        width: 70vw;
+    }
+
+    .toggle-button {
+        width: 100%;
+        margin: 0px 8px;
+    }
+
+    .toggle-button:after {
+        content: '';
+    }
+
+    .toggle-active {
+        width: 100%;
+        margin: 0px 8px;
+    }
+
+    .toggle-active:after {
+        content: '';
+    }
 }

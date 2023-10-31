@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import './Home.css';
-import { createNewRoom, getUserKeyForRoom, verifyUserName } from '../utils/utils';
+import { createNewRoom, getHostRoomKey, getUserKeyForRoom, verifyUserName, writeToDatabase } from '../utils/utils';
 import { db } from '../utils/firebase';
 import { ref, set } from 'firebase/database';
 import { Lobby } from './Lobby'
 
+
+
 //TODO: structure data similar to how I will structure data in lobby
 function Home() {
     const [name, setName] = useState("");
-    const [roomID, setRoomID] = useState(0);
+
+    const [hostID, setHostID] = useState(0);
+    const [roomKey, setRoomKey] = useState(0);
+
+
     const [rounds, setRounds] = useState(3);
     const [maxTime, setMaxTime] = useState(20);
     const [hostToggle, setHostToggle] = useState(true)
@@ -17,43 +23,55 @@ function Home() {
     const handleRoom = async (e) => {
         e.preventDefault();
         if (hostToggle) {
-            const roomKey = await createNewRoom(rounds, maxTime);
-            setRoomID(roomKey)
-            createUser(roomKey)
+            const tempKey = await createNewRoom(rounds, maxTime);
+            setRoomKey(tempKey)
+            createUser(tempKey)
+            setInLobby(true);
         } else {
-            createUser(roomID)
+            const tempKey = await getHostRoomKey(hostID);
+            if (tempKey) {
+                setRoomKey(tempKey)
+                createUser(tempKey);
+                setInLobby(true);
+            }
         }
-        setInLobby(true)
     }
 
     //TODO: handle joining in progress, game does not exist, game over
     function createUser(key) {
         const userID = getUserKeyForRoom(key);
+        if (hostToggle) {
+            setHostID(userID);
+            writeToDatabase("hostIDs/" + userID, {
+                roomKey: key
+            })
+        }
         console.log(key)
 
         //TODO: add checking if name exists
         set(ref(db, "rooms/" + key + "/playerIDs/" + userID), {
             score: 0,
             isReady: false,
+            currentAnswer: "",
             displayName: verifyUserName(name)
         });
     }
-    
+
     if (inLobby) return (
         <div>
             <div className="display-container">
                 Uninformed Reckoning
             </div>
             <div className="home-box">
-                <Lobby 
+                <Lobby
                     hostToggle={hostToggle}
-                    roomID={roomID}
+                    roomKey={roomKey}
+                    hostID={hostID}
                 />
             </div>
         </div>
     )
-    //TODO: fix the !hostStatus
-    //TODO: handle joining game in progress
+
     return (
         <div>
             <div className="display-container">
@@ -61,55 +79,44 @@ function Home() {
             </div>
             <div className="home-box">
                 <div className="toggle-container">
-                    {!hostToggle ? (
-                        <>
-                            <button
-                                className="toggle-button"
-                                onClick={() => setHostToggle(true)}
-                            >
-                                Create Game
-                            </button>
-                            <div className="toggle-item">
-                                <div className="toggle-text">Join Game</div>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className="toggle-item">
-                                <div className="toggle-text">Create Game</div>
-                            </div>
-                            <button
-                                className="toggle-button"
-                                onClick={() => setHostToggle(false)}
-                            >
-                                Join Game
-                            </button>
-                        </>
-                    )}
+                    <button
+                        className={hostToggle ? "toggle-active" : "toggle-button"}
+                        onClick={() => setHostToggle(true)}
+                    >
+                        Create
+                    </button>
+                    <button
+                        className={hostToggle ? "toggle-button" : "toggle-active"}
+                        onClick={() => setHostToggle(false)}
+                    >
+                        Join
+                    </button>
                 </div>
                 <div className="input-container">
                     <div className="form-container">
                         {hostToggle ? (
                             <form className="input-bubble">
-                                <input 
+                                <input
                                     type="number"
                                     min="3"
                                     max="9"
-                                    onChange={(e) => setRounds(e.target.value)}
-                                    placeholder="Enter number of rounds"
+                                    onChange={(e) => { setRounds(e.target.value) }}
+                                    placeholder="Enter rounds: "
+                                    id="rnd"
                                 />
                                 <input
                                     type="number"
                                     min="20"
                                     max="60"
                                     onChange={(e) => setMaxTime(e.target.value)}
-                                    placeholder="Enter amount of time"
+                                    placeholder="Enter seconds: "
+                                    id="tmr"
                                 />
                             </form>
                         ) : (
                             <form className="input-bubble">
                                 <input
-                                    onChange={(e) => setRoomID(e.target.value)}
+                                    onChange={(e) => setHostID(e.target.value)}
                                     placeholder="Enter a room key"
                                 />
                             </form>

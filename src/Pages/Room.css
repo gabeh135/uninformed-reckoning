@@ -1,21 +1,30 @@
+/* Base styles for larger screens */
 .game-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem;
-    width: 1350px;
-    min-height: 520px;
-    height: min-content;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    margin: 1rem;
-    color: #f0f8ff;
-    font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  width: 90vw;
+  min-height: 70vh;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  margin: .5rem;
+  color: #f0f8ff;
+  font-size: 30px;
+}
+
+@media screen and (max-width: 850px) {
+  .game-box {
+      min-height: 70vh;
+      height: fit-content;
+      margin-top: 0rem;
+      padding-top: 0px;
   }
-  
-  .scoreboard {
-    padding-left: 2rem;
-    font-size: 30px;
-    color: lightgray;
-  }
+}
+
+.scoreboard {
+  padding-left: 2rem;
+  font-size: 30px;
+  color: lightgray;
+}

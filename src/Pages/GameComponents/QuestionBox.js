@@ -11,8 +11,40 @@ export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, ga
         return () => clearInterval(time);
     }, [timerCount]);
 
-
     return (
+        <div className="infoContainer">
+            <div className="infoBox">
+                <div className="questionNumber">
+                    {"Question " + (round + 1)}
+                </div>
+                <div className="endContainer">
+                    {gameRun ? (
+                        <div className="timer">
+                            {timerCount}
+                        </div>
+                    ) : (isHost ? (
+                        <button className="newButton" onClick={handleNext}>
+                            Next
+                        </button>
+                    ) : (null)
+                    )}
+                </div>
+            </div>
+            <div className="prompt">
+                {currQuestion.prompt + "? "}
+            </div>
+        </div>
+    );
+}
+
+export default QuestionBox;
+
+/*
+
+
+
+
+
         <div className="infoContainer">
             <div className="questionBox">
                 <div>
@@ -23,18 +55,16 @@ export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, ga
                 </div>
             </div>
             <div className="endContainer">
-                {(!gameRun && isHost)? (
-                    <button  className="newButton" onClick={handleNext}>
-                    Next
-                    </button>
-                ) : (
+                {gameRun ? (
                     <div className="timer">
                         {timerCount}
                     </div>
+                ) : (isHost ? (
+                    <button className="newButton" onClick={handleNext}>
+                        Next
+                    </button>
+                ) : (null)
                 )}
             </div>
         </div>
-    );
-}
-
-export default QuestionBox;
+*/

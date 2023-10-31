@@ -1,8 +1,23 @@
 .infoContainer {
-    width: 1300px;
+    width: 85vw;
     display: flex;
-    justify-content: flex-end;
+    align-items: flex-start;
+    flex-direction: column;
+    font-size: 40px;
     padding: 1rem;
+    padding-top: 0rem;
+}
+
+.questionNumber {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.infoBox {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .questionBox {
@@ -13,18 +28,33 @@
 }
 
 .prompt {
+    margin-top: .5rem;
     font-size: 50px;
-    max-width: 800px;
+    width: 60vw;
     padding-left: 1rem;
+    justify-self: flex-start;
 }
+
+@media screen and (max-width: 850px) {
+    .infoContainer {
+        font-size: 40px;
+    }
+    .prompt {
+        width: 80vw;
+        font-size: 40px;
+    }
+}
+
 
 .endContainer {
     justify-self: end;
+    width: 90px;
+    height: 90px;
 }
 
 .timer {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -34,9 +64,18 @@
     opacity: .95;
 }
 
+@media screen and (max-width: 850px) {
+    .timer {
+        margin-top: .5rem;
+        width: 80px;
+        height: 80px;
+    }
+  }
+  
+
 .newButton {
-    margin-top: 1rem;
     padding: 1rem;
+    width: 95px;
     color: aliceblue;
     font-size: 30px;
     border: 3px solid rgba(255, 255, 255, 0.8);

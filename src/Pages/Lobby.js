@@ -8,13 +8,13 @@ import { db } from '../utils/firebase'
 import { onValue, ref } from 'firebase/database'
 
 //move to utils or gamedata
-const useLobbyState = (roomID, hostToggle) => {
+const useLobbyState = (roomKey, hostToggle) => {
     const [numReady, setNumReady] = useState(0);
     const [numPlayers, setNumPlayers] = useState(1);
     const navigate = useNavigate()
 
     useEffect(() => {
-        onValue(ref(db, 'rooms/' + roomID + '/playerIDs'), (snapshot) => {
+        onValue(ref(db, 'rooms/' + roomKey + '/playerIDs'), (snapshot) => {
             const playerList = snapshotToArray(snapshot)
             const numberReady = playerList.filter((player) => (
                 player.isReady === true)).length
@@ -22,22 +22,22 @@ const useLobbyState = (roomID, hostToggle) => {
             setNumPlayers(playerList.length)
 
             if (numberReady > 0 && (numberReady === playerList.length)) {
-                const path = 'rooms/' + roomID
+                const path = 'rooms/' + roomKey
                 navigate(path, { state: { isHost: hostToggle } });
             }
         });
-    }, [roomID])
+    }, [roomKey])
     return { numReady, numPlayers };
 }
 
-export const Lobby = ({ hostToggle, roomID }) => {
-    const [ready, setReady] = useState(false);
-    const { numReady, numPlayers } = useLobbyState(roomID, hostToggle);
-    const userKey = getUserKeyForRoom(roomID)
+export const Lobby = ({ hostToggle, roomKey, hostID }) => {
+    const [ ready, setReady ] = useState(false);
+    const { numReady, numPlayers } = useLobbyState(roomKey, hostToggle);
+    const userID = getUserKeyForRoom(roomKey)
 
     function handleReady() {
         if (!ready) {
-            const path = "/rooms/" + roomID + "/playerIDs/" + userKey + "/isReady"
+            const path = "/rooms/" + roomKey + "/playerIDs/" + userID + "/isReady"
             updateDatabase(path, true)
         }
         setReady(true)
@@ -49,14 +49,14 @@ export const Lobby = ({ hostToggle, roomID }) => {
         <div className="lobby-container">
             <div className="lobby-info">
                 <div>
-                    {"Key: " + roomID}
+                    {"Host ID: " + hostID}
                 </div>
                 <div className="ready-info">
                     {numReady + "/" + numPlayers + " players ready"}
                 </div>
             </div>
 
-            <button onClick={handleReady} className="go-button">
+            <button onClick={handleReady} className={ready ? "go-locked" : "go-button"}>
                 Ready
             </button>
 

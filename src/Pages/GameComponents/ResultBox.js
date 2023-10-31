@@ -27,7 +27,7 @@ export const ResultBox = ({ playerList, userKey }) => {
 
     return (
         <div className="resultContainer">
-            <div className="message">
+            <div className="box-message">
                 {getMessage()}
             </div>
             <div className="subMessage">

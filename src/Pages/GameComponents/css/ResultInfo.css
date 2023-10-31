@@ -1,8 +1,8 @@
-.infoContainer {
-    width: 1300px;
+.playerContainer {
+    margin-top: 1rem;
     display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
+    justify-content: space-between;
+    width: 85vw;
 }
 
 .playerBox {
@@ -14,8 +14,8 @@
 
 .message {
     font-size: 50px;
-    max-width: 800px;
     padding-left: 1rem;
+    padding-top: 1rem;
 }
 
 .buttonContainer {
@@ -23,6 +23,7 @@
 }
 
 .newButton {
+    width: 95px;
     margin-top: 1rem;
     padding: 1rem;
     color: aliceblue;
@@ -37,3 +38,10 @@
 .newButton:hover {
     background-color: #5eb4f691;
 }
+
+@media screen and (max-width: 850px) {
+    .playerContainer {
+      padding-top: 0rem;
+      width: 90vw;
+    }
+  }

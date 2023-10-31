@@ -3,19 +3,20 @@
   border-radius: 10px;
   display: flex;
   justify-content: flex-end;
-  margin: 1rem;
-  width: 760px;
+  width: fit-content;
+  min-width: 50vw;
   background-color: #ffffff;
   height: 70px;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.15);
 }
+
 
 .inputBox input {
   padding-left: 1.5rem;
   flex: 1;
   border: none;
   outline: none;
-  font-size: 20px;
+  font-size: 25px;
   background-color: transparent;
 }
 
@@ -32,19 +33,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 7rem;
 }
 
 .submit {
   padding: auto;
-  font-size: 20px;
-  color: #757575;
+  font-size: 25px;
   height: 70%;
-  border: 1px solid #757575;
+  border: 2px solid #6c6e71;
+  background-color: transparent;
+  color: #6c6e71;
+  border-radius: 10px;
+}
+
+.submit-locked {
+  padding: auto;
+  font-size: 25px;
+  color: aliceblue;
+  background-color: #909398;
+  height: 70%;
+  border: 1px solid #6c6e71;
   border-radius: 10px;
 }
 
 .submit:hover {
-  background-color: #757575;
-  color: #e9ecef;
+  background-color: #4aa8efb3;
+  border: 1px solid #4aa8efb3;
+  color: aliceblue
 }

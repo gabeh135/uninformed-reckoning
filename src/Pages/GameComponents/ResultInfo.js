@@ -12,7 +12,7 @@ export const GameInfo = ({ self }) => {
     }
 
     return (
-        <div className="infoContainer">
+        <div className="playerContainer">
             <div className="playerBox">
                 <div>
                     Your score was:

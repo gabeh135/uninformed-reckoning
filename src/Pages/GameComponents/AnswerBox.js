@@ -1,11 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './css/AnswerBox.css';
 
 //const max = playerList.reduce((prev, current) => (prev.score > current.score) ? prev : current)
+
+//TODO: opening does not change link color
 export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
+    console.log(currQuestion);
     return (
         <div className="answerContainer">
-            <div className="prompt">
+            <div className="answer-prompt">
                 {currQuestion.answer.toLocaleString() + " " + currQuestion.unit}
             </div>
             {timerCount === 0 ? (
@@ -17,6 +21,13 @@ export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
                     {"You were " + Math.abs(currQuestion.answer - input).toLocaleString() + " away!"}
                 </div>
             )}
+            <Link to={currQuestion.source} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="source"
+            >
+                view source
+            </Link>
             <div className="score">
                 {score + " point"}
                 {score !== 1 ? ("s") : ("")}

@@ -12,24 +12,20 @@ import ResultInfo from './GameComponents/ResultInfo.js'
 
 import { useLocation, useParams } from 'react-router-dom';
 import { getUserKeyForRoom, updateDatabase } from '../utils/utils';
-import { useGamePlayers, useGameData } from '../utils/gameData';
+import { useGamePlayers, useGameData, useTestGameData } from '../utils/gameData';
 
-//TODO: add unique css for post-round screen
-//TODO: styling for home page
-//TODO: restructure data + imports
-//TODO: restructure css (resultInfo + questionBox, resultBox + answerBox)
-//TODO: timer doesn't count down at the moment, hide timer when answerBox
-
-//when finished with TODO's: add a lot more questions, finish scoring, dial for timer, touch up styling for everything, 
-//                           slight background gradient, add a leaderboard,
-//                           go back button, add something saying 'waiting for host'
 function Room() {
   const { id } = useParams()
   const { state } = useLocation()
   const { isHost } = state
 
   const userKey = getUserKeyForRoom(id)
+
+  //TODO: replace game data with useTestGameData class once it works 100%
   const { playerList } = useGamePlayers(id);
+  //const { dataTest } = useTestGameData(id);
+  //console.log(dataTest);
+  //console.log(gameRun);
 
   const {
     timerCount,
@@ -45,16 +41,19 @@ function Room() {
     setInput
   } = useGameData(id)
 
+
   const handleSubmit = () => {
     setGameRun(false);
-    const path = 'rooms/' + id + '/playerIDs/' + userKey + '/score'
+    const path = 'rooms/' + id + '/playerIDs/' + userKey
     const newScore = calculateScore(input, currQuestion)
     const self = playerList.find((element) => {
       return element.key === userKey;
     })
 
     setScore(newScore);
-    updateDatabase(path, newScore + self.score)
+    updateDatabase((path + '/score'), newScore + self.score)
+    updateDatabase((path + '/currentAnswer'), input)
+
   }
 
   const handleNext = () => {
@@ -81,13 +80,14 @@ function Room() {
         </div>
         <div className="scoreboard">
           <Leaderboard
-            barVal="bottom"
             playerList={playerList}
+            gameRun={gameRun}
           />
         </div>
       </div>
     )
   }
+
   return (
     <div>
       <div className="game-box">
@@ -120,8 +120,8 @@ function Room() {
       </div>
       <div className="scoreboard">
         <Leaderboard
-          barVal="bottom"
           playerList={playerList}
+          gameRun={gameRun}
         />
       </div>
     </div>

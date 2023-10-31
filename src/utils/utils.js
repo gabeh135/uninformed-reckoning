@@ -2,17 +2,35 @@ import { db } from './firebase';
 import { ref, child, push, set, get, update } from 'firebase/database';
 import { setGameQuestions } from './questions.js';
 
-export function getSnapshotVal(path) {
+export async function getSnapshotVal(path) {
     const dbRef = ref(db);
     get(child(dbRef, path)).then((snapshot) => {
         if (snapshot.exists()) {
-            return (snapshot.val())
+            console.log(snapshot.val());
+            return snapshot.val();
         } else {
             console.log("No data available");
         }
     }).catch((error) => {
         console.error(error);
     });
+}
+
+export async function getHostRoomKey(hostID) {
+    const dbRef = ref(db);
+    var data;
+    await get(child(dbRef, 'hostIDs/' + hostID + '/roomKey')).then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log('found snapshot')
+            console.log(snapshot.val())
+            data = snapshot.val();
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+    return data;
 }
 
 export async function writeToDatabase(path, value) {
@@ -34,7 +52,7 @@ export function getUserKeyForRoom(roomID) {
         return existingUserID
     } else {
         //generate unique id, math.random for now
-        const uniqueID = String(Math.floor(Math.random() * 10000));
+        const uniqueID = String(Math.floor(Math.random() * 1000000));
         localStorage.setItem(storageKey, uniqueID);
         return uniqueID;
     }
@@ -51,8 +69,8 @@ export function verifyUserName(name) {
         return array[Math.floor(Math.random() * array.length)]
     }
     const names = {
-        firstNames: ['happy', 'blue', 'golden', 'green', 'shy'],
-        lastNames: ['gecko', 'tree', 'dragon', 'otter', 'lamp']
+        firstNames: ['Happy', 'Blue', 'Golden', 'Green', 'Shy', 'Baggier'],
+        lastNames: ['Gecko', 'Tree', 'Dragon', 'Otter', 'Lamp', 'Wolf']
     }
     return (name === undefined || name === "") ? (
         getIndex(names.firstNames) + " " + getIndex(names.lastNames)

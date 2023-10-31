@@ -1,0 +1,19 @@
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 4vh;
+}
+
+.leaderboard-player {
+    min-width: fit-content;
+}
+
+.leaderboard-info {
+
+}
+
+.player-answer{
+    text-align: center;
+    font-size: 27px;
+}
