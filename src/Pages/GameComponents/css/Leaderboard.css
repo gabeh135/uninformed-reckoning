@@ -7,6 +7,7 @@
 
 .leaderboard-player {
     min-width: fit-content;
+    margin-right: 1rem;
 }
 
 .leaderboard-info {
