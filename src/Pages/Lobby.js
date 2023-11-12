@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react'
 import './Home.css'
 import { getUserKeyForRoom, snapshotToArray } from '../utils/utils'
 import { useNavigate } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom';
 import { updateDatabase } from '../utils/utils'
 
 import { db } from '../utils/firebase'
 import { onValue, ref } from 'firebase/database'
 
-//move to utils or gamedata
-const useLobbyState = (roomKey, hostToggle) => {
+const useLobbyState = (id, isHost) => {
     const [numReady, setNumReady] = useState(0);
     const [numPlayers, setNumPlayers] = useState(1);
     const navigate = useNavigate()
 
+    console.log("lobby")
+
     useEffect(() => {
-        onValue(ref(db, 'rooms/' + roomKey + '/playerIDs'), (snapshot) => {
+        onValue(ref(db, 'rooms/' + id + '/playerKeys'), (snapshot) => {
             const playerList = snapshotToArray(snapshot)
             const numberReady = playerList.filter((player) => (
                 player.isReady === true)).length
@@ -22,44 +24,53 @@ const useLobbyState = (roomKey, hostToggle) => {
             setNumPlayers(playerList.length)
 
             if (numberReady > 0 && (numberReady === playerList.length)) {
-                const path = 'rooms/' + roomKey
-                navigate(path, { state: { isHost: hostToggle } });
+                const path = 'room'
+                navigate(path, { state: { isHost: isHost } });
             }
         });
-    }, [roomKey])
+    }, [id])
     return { numReady, numPlayers };
 }
 
-export const Lobby = ({ hostToggle, roomKey, hostID }) => {
+function Lobby() {
+    const { id } = useParams()
+    const { state } = useLocation()
+    const { isHost, hostKey } = state
+    const userKey = getUserKeyForRoom(id)
+
     const [ ready, setReady ] = useState(false);
-    const { numReady, numPlayers } = useLobbyState(roomKey, hostToggle);
-    const userID = getUserKeyForRoom(roomKey)
+    const { numReady, numPlayers } = useLobbyState(id, isHost);
+console.log("lobby")
+    //TODO: if a player joins the room and the room's host is not there, player is now a "temp host" until host joins
 
     function handleReady() {
         if (!ready) {
-            const path = "/rooms/" + roomKey + "/playerIDs/" + userID + "/isReady"
+            const path = "/rooms/" + id + "/playerKeys/" + userKey + "/isReady"
             updateDatabase(path, true)
         }
         setReady(true)
     }
 
-    //TODO: if player is host, add functionality to start game
-    //TODO: display room key somewhere
     return (
-        <div className="lobby-container">
-            <div className="lobby-info">
-                <div>
-                    {"Host ID: " + hostID}
-                </div>
-                <div className="ready-info">
-                    {numReady + "/" + numPlayers + " players ready"}
+        <div>
+            <div className="display-container">
+                Uninformed Reckoning
+            </div>
+            <div className="home-box">
+                <div className="lobby-container">
+                    <div className="lobby-info">
+                        <div>
+                            {"Host Key: " + hostKey}
+                        </div>
+                        <div className="ready-info">
+                            {numReady + "/" + numPlayers + " players ready"}
+                        </div>
+                    </div>
+                    <button onClick={handleReady} className={ready ? "go-locked" : "go-button"}>
+                        Ready
+                    </button>
                 </div>
             </div>
-
-            <button onClick={handleReady} className={ready ? "go-locked" : "go-button"}>
-                Ready
-            </button>
-
         </div>
     );
 }

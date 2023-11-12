@@ -15,7 +15,7 @@ export const InputBox = ({ input, setInput, currQuestion, handleSubmit }) => {
                 <input
                     type="number"
                     min="0"
-                    placeholder={"Enter number of " + currQuestion.unit}
+                    placeholder={"Enter Answer"}
                     onChange={(e) => setInput(e.target.value)}
                 />
                 <div className='submitBox'>

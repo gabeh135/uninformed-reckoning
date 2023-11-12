@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: space-between;
     width: 85vw;
+    min-width: 320px;
     min-height: 65vh;
     border-top: 2px solid black;
     margin: 1rem;
@@ -84,12 +85,6 @@
     height: 60px;
 }
 
-.toggle-item {
-    display: flex;
-    justify-content: center;
-    max-width: 240px;
-}
-
 .toggle-button {
     color: aliceblue;
     opacity: .9;
@@ -98,7 +93,7 @@
     border-radius: 15px;
     border: 3px solid rgba(255, 255, 255, 0.8);
     background-color: transparent;
-    width: 240px;
+    width: 15rem;
 }
 
 .toggle-button:after {
@@ -113,7 +108,7 @@
     border-radius: 15px;
     border: 3px solid rgba(255, 255, 255, 0.8);
     background-color: #5eb4f691;
-    width: 240px;
+    width: 15rem;
 }
 
 .toggle-active:after {
@@ -154,7 +149,6 @@
     .toggle-container {
         min-height: auto;
         overflow-wrap: break-word;
-        width: 65vw;
     }
 }
 
@@ -181,5 +175,17 @@
 
     .toggle-active:after {
         content: '';
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .toggle-container {
+        min-height: auto;
+        overflow-wrap: break-word;
+        width: 85vw;
+    }
+
+    .input-bubble input {
+        padding-left: .5rem;
     }
 }

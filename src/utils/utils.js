@@ -6,7 +6,6 @@ export async function getSnapshotVal(path) {
     const dbRef = ref(db);
     get(child(dbRef, path)).then((snapshot) => {
         if (snapshot.exists()) {
-            console.log(snapshot.val());
             return snapshot.val();
         } else {
             console.log("No data available");
@@ -16,13 +15,11 @@ export async function getSnapshotVal(path) {
     });
 }
 
-export async function getHostRoomKey(hostID) {
+export async function getHostRoomID(hostKey) {
     const dbRef = ref(db);
     var data;
-    await get(child(dbRef, 'hostIDs/' + hostID + '/roomKey')).then((snapshot) => {
+    await get(child(dbRef, 'hostKeys/' + hostKey + '/roomID')).then((snapshot) => {
         if (snapshot.exists()) {
-            console.log('found snapshot')
-            console.log(snapshot.val())
             data = snapshot.val();
         } else {
             console.log("No data available");
@@ -47,14 +44,14 @@ export async function updateDatabase(path, value) {
 export function getUserKeyForRoom(roomID) {
     //check cookie store for room id
     const storageKey = "userKey." + roomID
-    const existingUserID = localStorage.getItem(storageKey);
-    if (existingUserID) {
-        return existingUserID
+    const existingUserKey = localStorage.getItem(storageKey);
+    if (existingUserKey) {
+        return existingUserKey
     } else {
         //generate unique id, math.random for now
-        const uniqueID = String(Math.floor(Math.random() * 1000000));
-        localStorage.setItem(storageKey, uniqueID);
-        return uniqueID;
+        const uniqueKey = String(Math.floor(Math.random() * 1000000));
+        localStorage.setItem(storageKey, uniqueKey);
+        return uniqueKey;
     }
     //if exists, we already have a user key returning
     //if doesn't, we need to create a unique string, store it, return it. 
@@ -78,17 +75,16 @@ export function verifyUserName(name) {
 }
 
 export async function createNewRoom(rounds, time) {
-    const roomKey = push(child(ref(db), 'rooms')).key;
-    const path = 'rooms/' + roomKey
+    const roomID = push(child(ref(db), 'rooms')).key;
+    const path = 'rooms/' + roomID
     writeToDatabase(path, {
         currentRound: 0,
-        numReady: 0,
         maxRounds: rounds,
-        playerIDs: "",
+        playerKeys: "",
         questions: setGameQuestions(rounds),
         timerMax: time
     })
-    return roomKey;
+    return roomID;
 }
 
 export function snapshotToArray(snapshot) {

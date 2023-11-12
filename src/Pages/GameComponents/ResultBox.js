@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/ResultBox.css';
+import { useNavigate } from 'react-router-dom'
+import { updateDatabase } from '../../utils/utils';
 
-//handle both players having same score
-//change up styling in box
-//If you win, "game over" goes in very top, nothing in subMessage, 
-//      "You win!" goes in scoreMessage
-export const ResultBox = ({ playerList, userKey }) => {
+import { db } from '../../utils/firebase'
+import { onValue, ref } from 'firebase/database'
+
+export const ResultBox = ({ playerList, userKey, isHost, id }) => {
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        var hostKey;
+        playerList.forEach(function (player) {
+            if (player.isHost) {
+                hostKey = player.key;
+            }
+        })
+
+        onValue(ref(db, 'rooms/' + id + '/playerKeys/' + userKey), (snapshot) => {
+            const playerSnapshot = snapshot.val();
+            console.log(playerSnapshot)
+            if (playerSnapshot.isReady == false) {
+                console.log("hi")
+                navigate('/lobbies/' + id, { state: { isHost: isHost, hostKey: hostKey } });
+            }
+        });
+    }, [id])
+
     function getWinningPlayer() {
         const winningPlayer = playerList.reduce((prev, current) => (
             prev.score > current.score) ? prev : current);
@@ -18,24 +39,40 @@ export const ResultBox = ({ playerList, userKey }) => {
         ));
     }
 
-    //handle only 1 point
     function getScoreMessage() {
         const winner = getWinningPlayer()
         const scoreMessage = (winner.key === userKey) ? "You" : "They"
         return scoreMessage + " had " + winner.score + " points"
     }
 
+    const handleReplay = () => {
+        console.log(id)
+        console.log("replay")
+        const path = 'rooms/' + id
+        playerList.forEach(function (player) {
+            updateDatabase((path + '/playerKeys/' + player.key + '/isReady'), false);
+        })
+        updateDatabase((path + '/currentRound'), 0);
+    }
+
     return (
-        <div className="resultContainer">
-            <div className="box-message">
-                {getMessage()}
+        <div className="result-box">
+            <div className="resultContainer">
+                <div className="box-message">
+                    {getMessage()}
+                </div>
+                <div className="subMessage">
+                    Game Over!
+                </div>
+                <div className="scoreMessage">
+                    {getScoreMessage()}
+                </div>
             </div>
-            <div className="subMessage">
-                Game Over!
-            </div>
-            <div className="scoreMessage">
-                {getScoreMessage()}
-            </div>
+            {isHost ? (
+                <button onClick={handleReplay} className="replayButton">
+                    Play Again
+                </button>) : ("")
+            }
         </div>
     );
 }

@@ -38,33 +38,3 @@ export const QuestionBox = ({ currQuestion, round, timerCount, setTimerCount, ga
 }
 
 export default QuestionBox;
-
-/*
-
-
-
-
-
-        <div className="infoContainer">
-            <div className="questionBox">
-                <div>
-                    {"Question " + (round + 1)}
-                </div>
-                <div className="prompt">
-                    {currQuestion.prompt + "? "}
-                </div>
-            </div>
-            <div className="endContainer">
-                {gameRun ? (
-                    <div className="timer">
-                        {timerCount}
-                    </div>
-                ) : (isHost ? (
-                    <button className="newButton" onClick={handleNext}>
-                        Next
-                    </button>
-                ) : (null)
-                )}
-            </div>
-        </div>
-*/

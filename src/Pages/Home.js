@@ -1,76 +1,53 @@
 import React, { useState } from 'react'
 import './Home.css';
-import { createNewRoom, getHostRoomKey, getUserKeyForRoom, verifyUserName, writeToDatabase } from '../utils/utils';
+import { useNavigate } from 'react-router-dom'
+import { createNewRoom, getHostRoomID, getUserKeyForRoom, verifyUserName, writeToDatabase } from '../utils/utils';
 import { db } from '../utils/firebase';
 import { ref, set } from 'firebase/database';
-import { Lobby } from './Lobby'
 
-
-
-//TODO: structure data similar to how I will structure data in lobby
 function Home() {
     const [name, setName] = useState("");
-
-    const [hostID, setHostID] = useState(0);
-    const [roomKey, setRoomKey] = useState(0);
-
-
+    const [hostKey, setHostKey] = useState(0);
     const [rounds, setRounds] = useState(3);
     const [maxTime, setMaxTime] = useState(20);
     const [hostToggle, setHostToggle] = useState(true)
-    const [inLobby, setInLobby] = useState(false);
+    const navigate = useNavigate()
 
     const handleRoom = async (e) => {
         e.preventDefault();
+        var roomID;
+        var hostRoomKey = hostKey;
         if (hostToggle) {
-            const tempKey = await createNewRoom(rounds, maxTime);
-            setRoomKey(tempKey)
-            createUser(tempKey)
-            setInLobby(true);
+            roomID = await createNewRoom(rounds, maxTime);
+            hostRoomKey = await createUser(roomID)
         } else {
-            const tempKey = await getHostRoomKey(hostID);
-            if (tempKey) {
-                setRoomKey(tempKey)
-                createUser(tempKey);
-                setInLobby(true);
-            }
+            roomID = await getHostRoomID(hostRoomKey);
+        }
+
+        if (roomID) {
+            await createUser(roomID);
+            const path = 'lobbies/' + roomID
+            navigate(path, { state: { isHost: hostToggle, hostKey: hostRoomKey } });
         }
     }
 
-    //TODO: handle joining in progress, game does not exist, game over
-    function createUser(key) {
-        const userID = getUserKeyForRoom(key);
+    async function createUser(id) {
+        const userKey = getUserKeyForRoom(id);
         if (hostToggle) {
-            setHostID(userID);
-            writeToDatabase("hostIDs/" + userID, {
-                roomKey: key
+            writeToDatabase("hostKeys/" + userKey, {
+                roomID: id
             })
         }
-        console.log(key)
 
-        //TODO: add checking if name exists
-        set(ref(db, "rooms/" + key + "/playerIDs/" + userID), {
+        set(ref(db, "rooms/" + id + "/playerKeys/" + userKey), {
             score: 0,
             isReady: false,
+            isHost: hostToggle,
             currentAnswer: "",
             displayName: verifyUserName(name)
         });
+        return userKey;
     }
-
-    if (inLobby) return (
-        <div>
-            <div className="display-container">
-                Uninformed Reckoning
-            </div>
-            <div className="home-box">
-                <Lobby
-                    hostToggle={hostToggle}
-                    roomKey={roomKey}
-                    hostID={hostID}
-                />
-            </div>
-        </div>
-    )
 
     return (
         <div>
@@ -116,7 +93,7 @@ function Home() {
                         ) : (
                             <form className="input-bubble">
                                 <input
-                                    onChange={(e) => setHostID(e.target.value)}
+                                    onChange={(e) => setHostKey(e.target.value)}
                                     placeholder="Enter a room key"
                                 />
                             </form>

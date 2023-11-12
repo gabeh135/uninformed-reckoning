@@ -3,10 +3,12 @@ import { snapshotToArray } from './utils'
 import { db } from './firebase'
 import { get, child, ref, onValue } from 'firebase/database'
 
+const defaultSource = 'https:www.wikipedia.org'
+
 export const useGamePlayers = (id) => {
   const [playerList, setPlayerList] = useState([])
   useEffect(() => {
-    const playersRef = ref(db, 'rooms/' + id + '/playerIDs');
+    const playersRef = ref(db, 'rooms/' + id + '/playerKeys');
     onValue(playersRef, (snapshot) => {
       const players = snapshotToArray(snapshot)
       setPlayerList(players)
@@ -16,9 +18,6 @@ export const useGamePlayers = (id) => {
   return { playerList };
 }
 
-//TODO: restructure down the road, maybe split into multiple
-//      there is a lot of redundency here too
-//TODO: handle joining a game midway through, it works when questions are going but not on answer box
 export const useGameData = (id) => {
   const [questions, setQuestions] = useState([])
   const [currQuestion, setCurrQuestion] = useState([])
@@ -45,7 +44,6 @@ export const useGameData = (id) => {
             tempQuestion.source = "https:www.wikipedia.org";
           }
         });
-        console.log(roomQuestions);
         setQuestions(roomQuestions)
         setCurrQuestion(roomQuestions[currentRound])
         setRoundCount(data.maxRounds)
@@ -62,22 +60,18 @@ export const useGameData = (id) => {
       console.error(error);
     });
 
-    //add functionality to check for game end
     onValue(ref(db, 'rooms/' + id + '/currentRound'), (snapshot) => {
       let value = snapshot.val()
       setRound(value)
-      //change to functions for end of game
       if (value === (roundCount)) {
         setEndGame(true)
         value = 0
-      }
-      else {
+      } else {
         get(child(dbRef, 'rooms/' + id + '/questions')).then((snapshot) => {
           const roomQuestions = snapshot.val()
           if (!roomQuestions[value].source) {
-            roomQuestions[value].source = "https:www.wikipedia.org"
+            roomQuestions[value].source = defaultSource;
           }
-          console.log(roomQuestions[value]);
           setCurrQuestion(roomQuestions[value])
         })
         setGameRun(true)
@@ -92,6 +86,7 @@ export const useGameData = (id) => {
   return { questions, timerCount, setTimerCount, currQuestion, round, endGame, gameRun, setGameRun, score, setScore, input, setInput }
 }
 
+/*
 export const useTestGameData = (id) => {
   //set round data function somewhere
   var initialData;
@@ -149,3 +144,4 @@ export const useTestGameData = (id) => {
 
   return ( dataTest, timerCount, gameRun);
 }
+*/

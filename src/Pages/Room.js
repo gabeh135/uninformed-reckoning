@@ -44,7 +44,7 @@ function Room() {
 
   const handleSubmit = () => {
     setGameRun(false);
-    const path = 'rooms/' + id + '/playerIDs/' + userKey
+    const path = 'rooms/' + id + '/playerKeys/' + userKey
     const newScore = calculateScore(input, currQuestion)
     const self = playerList.find((element) => {
       return element.key === userKey;
@@ -53,13 +53,15 @@ function Room() {
     setScore(newScore);
     updateDatabase((path + '/score'), newScore + self.score)
     updateDatabase((path + '/currentAnswer'), input)
-
   }
 
   const handleNext = () => {
-    const path = 'rooms/' + id + '/currentRound'
-    updateDatabase(path, round + 1)
-
+    const path = 'rooms/' + id
+    playerList.forEach(function(player) {
+      const path = 'rooms/' + id + '/playerKeys/' + player.key
+      updateDatabase((path + '/currentAnswer'), "");
+    })
+    updateDatabase(path + '/currentRound', round + 1)
   }
 
   if (endGame) {
@@ -68,13 +70,14 @@ function Room() {
         <div className="game-box">
           <ResultInfo 
             self={playerList.find((element) => {
-              //move this function into ResultInfo
               return element.key === userKey;
             })}
           />
           <ResultBox
             playerList={playerList}
             userKey={userKey}
+            isHost={isHost}
+            id={id}
           />
 
         </div>

@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
 import { db } from './firebase';
-import { ref, get, child, onValue } from 'firebase/database';
+import { ref, get, child } from 'firebase/database';
 import { snapshotToArray } from './utils';
 
-//TODO: make only host access this
 const questionList = await getQuestions();
 
 export function calculateScore(input, question) {

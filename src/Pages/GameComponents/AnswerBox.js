@@ -2,11 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './css/AnswerBox.css';
 
-//const max = playerList.reduce((prev, current) => (prev.score > current.score) ? prev : current)
-
-//TODO: opening does not change link color
 export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
-    console.log(currQuestion);
     return (
         <div className="answerContainer">
             <div className="answer-prompt">

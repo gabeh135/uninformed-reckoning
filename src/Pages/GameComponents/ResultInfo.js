@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const GameInfo = ({ self }) => {
     const navigate = useNavigate();
-
-    //delete something when leaving?
+    
     const handleEnd = (e) => {
         e.preventDefault();
         navigate("/")
