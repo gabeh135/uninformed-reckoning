@@ -4,7 +4,6 @@
     align-items: center;
     justify-content: space-between;
     width: 85vw;
-    min-width: 320px;
     min-height: 65vh;
     border-top: 2px solid black;
     margin: 1rem;
@@ -138,6 +137,11 @@
 }
 
 @media screen and (max-width: 850px) {
+    .home-box {
+        padding-left: .5rem;
+        padding-right: .5rem;
+    }
+
     .input-bubble {
         width: 90vw;
         height: 50px;
@@ -187,5 +191,14 @@
 
     .input-bubble input {
         padding-left: .5rem;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .go-button {
+        width: 200px;
+    }
+    .display-container {
+        font-size: 50px
     }
 }

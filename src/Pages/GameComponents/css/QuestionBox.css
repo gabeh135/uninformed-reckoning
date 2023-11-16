@@ -35,17 +35,6 @@
     justify-self: flex-start;
 }
 
-@media screen and (max-width: 850px) {
-    .infoContainer {
-        font-size: 40px;
-    }
-    .prompt {
-        width: 80vw;
-        font-size: 40px;
-    }
-}
-
-
 .endContainer {
     justify-self: end;
     width: 90px;
@@ -64,15 +53,6 @@
     opacity: .95;
 }
 
-@media screen and (max-width: 850px) {
-    .timer {
-        margin-top: .5rem;
-        width: 80px;
-        height: 80px;
-    }
-  }
-  
-
 .newButton {
     padding: 1rem;
     width: 95px;
@@ -87,4 +67,32 @@
 
 .newButton:hover {
     background-color: #5eb4f691;
+}
+
+@media screen and (max-width: 850px) {
+    .infoContainer {
+        font-size: 40px;
+    }
+    .prompt {
+        width: 80vw;
+        font-size: 40px;
+    }
+
+    .timer {
+        margin-top: .5rem;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .infoContainer {
+        padding: 0%;
+        width: 100%;
+    }
+    .prompt {
+        width: 100%;
+        padding-left: 0%;
+        margin-bottom: .5rem;
+    }
 }
