@@ -1,6 +1,6 @@
 import { db } from './firebase';
 import { ref, child, push, set, get, update } from 'firebase/database';
-import { setGameQuestions } from './questions.js';
+import { getGameQuestions } from './questions.js';
 
 export async function getSnapshotVal(path) {
     const dbRef = ref(db);
@@ -58,7 +58,7 @@ export function getUserKeyForRoom(roomID) {
     //per room, every time we call this we get this
 }
 
-//TODO: add more first and last names down the road
+//TODO: add more first and last names
 //TODO: add max name length
 //TODO: check that name doesnt already exist
 export function verifyUserName(name) {
@@ -81,7 +81,7 @@ export async function createNewRoom(rounds, time) {
         currentRound: 0,
         maxRounds: rounds,
         playerKeys: "",
-        questions: setGameQuestions(rounds),
+        questions: getGameQuestions(rounds),
         timerMax: time
     })
     return roomID;

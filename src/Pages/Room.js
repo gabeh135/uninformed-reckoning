@@ -12,7 +12,7 @@ import ResultInfo from './GameComponents/ResultInfo.js'
 
 import { useLocation, useParams } from 'react-router-dom';
 import { getUserKeyForRoom, updateDatabase } from '../utils/utils';
-import { useGamePlayers, useGameData, useTestGameData } from '../utils/gameData';
+import { useGamePlayers, useGameData } from '../utils/gameData';
 
 function Room() {
   const { id } = useParams()
@@ -22,7 +22,8 @@ function Room() {
   const userKey = getUserKeyForRoom(id)
 
   //TODO: replace game data with useTestGameData class once it works 100%
-  const { playerList } = useGamePlayers(id);
+  const { playerList, self } = useGamePlayers(id);
+
   //const { dataTest } = useTestGameData(id);
   //console.log(dataTest);
   //console.log(gameRun);
@@ -38,7 +39,8 @@ function Room() {
     input,
     gameRun,
     setGameRun,
-    setInput
+    setInput,
+    roundCount
   } = useGameData(id)
 
 
@@ -46,9 +48,6 @@ function Room() {
     setGameRun(false);
     const path = 'rooms/' + id + '/playerKeys/' + userKey
     const newScore = calculateScore(input, currQuestion)
-    const self = playerList.find((element) => {
-      return element.key === userKey;
-    })
 
     setScore(newScore);
     updateDatabase((path + '/score'), newScore + self.score)
@@ -64,20 +63,23 @@ function Room() {
     updateDatabase(path + '/currentRound', round + 1)
   }
 
+
   if (endGame) {
     return (
-      <div>
+      <div className="room-box">
+        <div className="name-display">
+          { self.displayName }
+        </div>
         <div className="game-box">
           <ResultInfo 
-            self={playerList.find((element) => {
-              return element.key === userKey;
-            })}
+            self={self}
           />
           <ResultBox
             playerList={playerList}
             userKey={userKey}
             isHost={isHost}
             id={id}
+            roundCount={roundCount}
           />
 
         </div>
@@ -92,7 +94,10 @@ function Room() {
   }
 
   return (
-    <div>
+    <div className="room-box">
+      <div className="name-display">
+        { self.displayName }
+      </div>
       <div className="game-box">
         <QuestionBox
           currQuestion={currQuestion}

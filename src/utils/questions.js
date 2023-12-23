@@ -2,7 +2,7 @@ import { db } from './firebase';
 import { ref, get, child } from 'firebase/database';
 import { snapshotToArray } from './utils';
 
-const questionList = await getQuestions();
+var questionList = await getQuestions();
 
 export function calculateScore(input, question) {
   const given = Number(input);
@@ -15,10 +15,9 @@ export function calculateScore(input, question) {
   let baseScore;
 
   if (given < expected) {
-    baseScore = 1 - (Math.log(expected) - Math.log(given));
+    baseScore = 1 - ((Math.log(expected) / Math.log(5)) - (Math.log(given) / Math.log(5)));
   } else if (given > expected) {
-    const logGiven = (2 * expected) - given;
-    baseScore = 1 - (Math.log(expected) - Math.log(logGiven));
+    baseScore = 1 - ((Math.log(given) / Math.log(4)) - (Math.log(expected) / Math.log(4)));
   } else {
     baseScore = 1;
   }
@@ -40,7 +39,7 @@ export async function getQuestions() {
   });
 }
 
-export function setGameQuestions(roundCount) {
+export function getGameQuestions(roundCount) {
   const gameQuestions = questionList
     .sort(() => Math.random() - 0.5)
     .slice(0, roundCount);

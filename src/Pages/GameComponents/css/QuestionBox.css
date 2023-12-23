@@ -4,8 +4,7 @@
     align-items: flex-start;
     flex-direction: column;
     font-size: 40px;
-    padding: 1rem;
-    padding-top: 0rem;
+    padding: 0rem;
 }
 
 .questionNumber {

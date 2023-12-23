@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { snapshotToArray } from './utils'
+import { snapshotToArray, getUserKeyForRoom } from './utils'
 import { db } from './firebase'
 import { get, child, ref, onValue } from 'firebase/database'
 
@@ -7,15 +7,21 @@ const defaultSource = 'https:www.wikipedia.org'
 
 export const useGamePlayers = (id) => {
   const [playerList, setPlayerList] = useState([])
+  const [self, setSelf] = useState([])
   useEffect(() => {
+    const userKey = getUserKeyForRoom(id)
     const playersRef = ref(db, 'rooms/' + id + '/playerKeys');
     onValue(playersRef, (snapshot) => {
       const players = snapshotToArray(snapshot)
       setPlayerList(players)
+      const user = players.find((element) => { 
+        return element.key === userKey 
+      })
+      setSelf(user)
     });
   }, [id]);
 
-  return { playerList };
+  return { playerList, self };
 }
 
 export const useGameData = (id) => {
@@ -28,7 +34,6 @@ export const useGameData = (id) => {
   const [gameRun, setGameRun] = useState(true)
   const [endGame, setEndGame] = useState(false)
   const [timerCount, setTimerCount] = useState(20)
-  const [timerMax, setTimerMax] = useState(20)
   var time = 20;
 
   useEffect(() => {
@@ -39,7 +44,7 @@ export const useGameData = (id) => {
         const currentRound = data.currentRound
 
         const roomQuestions = data.questions
-        roomQuestions.forEach(function(tempQuestion) {
+        roomQuestions.forEach(function (tempQuestion) {
           if (!tempQuestion.source) {
             tempQuestion.source = "https:www.wikipedia.org";
           }
@@ -51,7 +56,6 @@ export const useGameData = (id) => {
 
         time = data.timerMax
         setTimerCount(time)
-        setTimerMax(time)
 
       } else {
         console.log("No data available");
@@ -83,65 +87,5 @@ export const useGameData = (id) => {
   }, [id])
 
 
-  return { questions, timerCount, setTimerCount, currQuestion, round, endGame, gameRun, setGameRun, score, setScore, input, setInput }
+  return { questions, timerCount, setTimerCount, currQuestion, round, endGame, gameRun, setGameRun, score, setScore, input, setInput, roundCount }
 }
-
-/*
-export const useTestGameData = (id) => {
-  //set round data function somewhere
-  var initialData;
-
-  //don't pass setGameData, instead create a state "roundData" in room?
-  const [ timerCount, setTimerCount ] = useState();
-  var testData = { 
-    currentRound: 0, 
-    questions: [], 
-    timerMax: 20, 
-    maxRounds: 3
-  }
-  const [ score, setScore ] = useState(0);
-  const [ input, setInput ] = useState("");
-  const [ gameRun, setGameRun ] = useState(true); 
-  const [ dataTest, setDataTest ] = useState();
-
-  //move timer handler here, instead of handling submit when runs out, simply set gameRun to false
-  //   building off of above, replace handleSubmit with a viewer for gameRun
-  useEffect(() => {
-    const getData = async () => {
-      const dbRef = ref(db)
-      await get(child(dbRef, 'rooms/' + id)).then((snapshot) => {
-        if (snapshot.exists()) {
-          const { currentRound, questions, timerMax, maxRounds } = snapshot.val();
-          testData = snapshot.val();
-          console.log(testData);
-
-          initialData = {
-            questions,
-            timerMax,
-            rounds: maxRounds
-          }
-
-          const initialGameData = {
-            currQuestion: questions[currentRound],
-            round: currentRound,
-            endGame: false,
-          }
-
-          setDataTest(testData);
-        } else {
-          console.log("No data available");
-        }
-      }).catch((error) => {
-        console.error(error);
-      });
-    };
-    getData();
-  }, [id])
-
-
-  console.log(testData);
-
-
-  return ( dataTest, timerCount, gameRun);
-}
-*/

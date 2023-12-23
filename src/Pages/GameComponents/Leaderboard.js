@@ -3,6 +3,7 @@ import './css/Leaderboard.css'
 
 export const Leaderboard = ({ playerList, gameRun }) => {
     return (
+        <div className="leaderboard-body">
         <table className="leaderboard">
             <tbody>
                 <tr>
@@ -21,6 +22,7 @@ export const Leaderboard = ({ playerList, gameRun }) => {
                 </tr>
             </tbody>
         </table>
+        </div>
     );
 }
 

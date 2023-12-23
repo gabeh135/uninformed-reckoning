@@ -13,8 +13,6 @@ const useLobbyState = (id, isHost) => {
     const [numPlayers, setNumPlayers] = useState(1);
     const navigate = useNavigate()
 
-    console.log("lobby")
-
     useEffect(() => {
         onValue(ref(db, 'rooms/' + id + '/playerKeys'), (snapshot) => {
             const playerList = snapshotToArray(snapshot)
@@ -40,8 +38,6 @@ function Lobby() {
 
     const [ ready, setReady ] = useState(false);
     const { numReady, numPlayers } = useLobbyState(id, isHost);
-console.log("lobby")
-    //TODO: if a player joins the room and the room's host is not there, player is now a "temp host" until host joins
 
     function handleReady() {
         if (!ready) {

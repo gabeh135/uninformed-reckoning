@@ -14,6 +14,7 @@ export const InputBox = ({ input, setInput, currQuestion, handleSubmit }) => {
             <form className='inputBox shadow'>
                 <input
                     type="number"
+                    inputMode='numeric'
                     min="0"
                     placeholder={"Enter Answer"}
                     onChange={(e) => setInput(e.target.value)}

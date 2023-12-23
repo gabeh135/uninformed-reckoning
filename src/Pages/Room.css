@@ -1,10 +1,18 @@
 /* Base styles for larger screens */
+.room-box {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .game-box {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
+  padding-top: 1rem;
   width: 90vw;
   min-height: 72vh;
   border-top: 2px solid black;
@@ -12,6 +20,15 @@
   margin: .5rem;
   color: #f0f8ff;
   font-size: 30px;
+}
+
+.name-display {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+  font-size: 45px;
+  text-align: center;
+  color: aliceblue;
 }
 
 @media screen and (max-width: 850px) {
@@ -23,10 +40,4 @@
       padding-left: .5rem;
       padding-right: .5rem;
   }
-}
-
-.scoreboard {
-  padding-left: 2rem;
-  font-size: 30px;
-  color: lightgray;
 }

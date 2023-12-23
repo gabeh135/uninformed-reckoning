@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './css/ResultBox.css';
 import { useNavigate } from 'react-router-dom'
 import { updateDatabase } from '../../utils/utils';
 
 import { db } from '../../utils/firebase'
 import { onValue, ref } from 'firebase/database'
+import { getGameQuestions } from '../../utils/questions';
 
-export const ResultBox = ({ playerList, userKey, isHost, id }) => {
+export const ResultBox = ({ playerList, userKey, isHost, id, roundCount }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -21,7 +22,6 @@ export const ResultBox = ({ playerList, userKey, isHost, id }) => {
             const playerSnapshot = snapshot.val();
             console.log(playerSnapshot)
             if (playerSnapshot.isReady == false) {
-                console.log("hi")
                 navigate('/lobbies/' + id, { state: { isHost: isHost, hostKey: hostKey } });
             }
         });
@@ -46,12 +46,12 @@ export const ResultBox = ({ playerList, userKey, isHost, id }) => {
     }
 
     const handleReplay = () => {
-        console.log(id)
-        console.log("replay")
         const path = 'rooms/' + id
+        
         playerList.forEach(function (player) {
             updateDatabase((path + '/playerKeys/' + player.key + '/isReady'), false);
         })
+        updateDatabase((path + '/questions'), getGameQuestions(roundCount));
         updateDatabase((path + '/currentRound'), 0);
     }
 

@@ -9,25 +9,30 @@ export const AnswerBox = ({ score, currQuestion, input, timerCount }) => {
                 {currQuestion.answer.toLocaleString() + " " + currQuestion.unit}
             </div>
             {timerCount === 0 ? (
-                <div className="answer">
-                    {"You ran out of time!"}
-                </div>
+                <div />
             ) : (
                 <div className="answer">
                     {"You were " + Math.abs(currQuestion.answer - input).toLocaleString() + " away!"}
                 </div>
             )}
-            <Link to={currQuestion.source} 
-                target="_blank" 
+            <Link to={currQuestion.source}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="source"
             >
                 view source
             </Link>
-            <div className="score">
-                {score + " point"}
-                {score !== 1 ? ("s") : ("")}
-            </div>
+            {timerCount === 0 ? (
+                <div className="score">
+                    {"You ran out of time!"}
+                </div>
+            ) : (
+                <div className="score">
+                    {score + " point"}
+                    {score !== 1 ? ("s") : ("")}
+                </div>
+            )}
+
         </div>
     );
 }
