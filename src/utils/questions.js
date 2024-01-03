@@ -2,6 +2,7 @@ import { db } from './firebase';
 import { ref, get, child } from 'firebase/database';
 import { snapshotToArray } from './utils';
 
+const scoreMultiplier = 500;
 var questionList = await getQuestions();
 
 export function calculateScore(input, question) {
@@ -22,10 +23,9 @@ export function calculateScore(input, question) {
     baseScore = 1;
   }
 
-  return baseScore > 0 ? Math.floor(5000 * baseScore) : 0;
+  return baseScore > 0 ? Math.floor(scoreMultiplier * baseScore) : 0;
 }
 
-//TODO: get rid of snapshotToArray
 export async function getQuestions() {
   const dbRef = ref(db);
   return get(child(dbRef, `/questions`)).then((snapshot) => {

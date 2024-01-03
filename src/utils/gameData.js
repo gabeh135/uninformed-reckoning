@@ -34,6 +34,7 @@ export const useGameData = (id) => {
   const [gameRun, setGameRun] = useState(true)
   const [endGame, setEndGame] = useState(false)
   const [timerCount, setTimerCount] = useState(20)
+  const [data, setData] = useState(); 
   var time = 20;
 
   useEffect(() => {
@@ -85,7 +86,6 @@ export const useGameData = (id) => {
       setInput("")
     });
   }, [id])
-
 
   return { questions, timerCount, setTimerCount, currQuestion, round, endGame, gameRun, setGameRun, score, setScore, input, setInput, roundCount }
 }

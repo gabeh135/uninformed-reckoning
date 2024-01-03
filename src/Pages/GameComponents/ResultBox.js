@@ -7,7 +7,7 @@ import { db } from '../../utils/firebase'
 import { onValue, ref } from 'firebase/database'
 import { getGameQuestions } from '../../utils/questions';
 
-export const ResultBox = ({ playerList, userKey, isHost, id, roundCount }) => {
+export const ResultBox = ({ playerList, userKey, isHost, id, handleReplay }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -45,15 +45,15 @@ export const ResultBox = ({ playerList, userKey, isHost, id, roundCount }) => {
         return scoreMessage + " had " + winner.score + " points"
     }
 
-    const handleReplay = () => {
-        const path = 'rooms/' + id
+    // const handleReplay = () => {
+    //     const path = 'rooms/' + id
         
-        playerList.forEach(function (player) {
-            updateDatabase((path + '/playerKeys/' + player.key + '/isReady'), false);
-        })
-        updateDatabase((path + '/questions'), getGameQuestions(roundCount));
-        updateDatabase((path + '/currentRound'), 0);
-    }
+    //     playerList.forEach(function (player) {
+    //         updateDatabase((path + '/playerKeys/' + player.key + '/isReady'), false);
+    //     })
+    //     updateDatabase((path + '/questions'), getGameQuestions(roundCount));
+    //     updateDatabase((path + '/currentRound'), 0);
+    // }
 
     return (
         <div className="result-box">

@@ -2,7 +2,7 @@ import React from 'react';
 import './css/ResultInfo.css';
 import { useNavigate } from 'react-router-dom'
 
-export const GameInfo = ({ self }) => {
+export const ResultInfo = ({ self }) => {
     const navigate = useNavigate();
     
     const handleEnd = (e) => {
@@ -29,4 +29,4 @@ export const GameInfo = ({ self }) => {
     );
 }
 
-export default GameInfo;
+export default ResultInfo;

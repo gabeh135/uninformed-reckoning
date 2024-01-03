@@ -13,6 +13,7 @@ import ResultInfo from './GameComponents/ResultInfo.js'
 import { useLocation, useParams } from 'react-router-dom';
 import { getUserKeyForRoom, updateDatabase } from '../utils/utils';
 import { useGamePlayers, useGameData } from '../utils/gameData';
+import { getGameQuestions } from '../utils/questions.js';
 
 function Room() {
   const { id } = useParams()
@@ -20,16 +21,10 @@ function Room() {
   const { isHost } = state
 
   const userKey = getUserKeyForRoom(id)
-
-  //TODO: replace game data with useTestGameData class once it works 100%
   const { playerList, self } = useGamePlayers(id);
 
-  //const { dataTest } = useTestGameData(id);
-  //console.log(dataTest);
-  //console.log(gameRun);
-
   const {
-    timerCount,
+    timerCount, 
     setTimerCount,
     currQuestion,
     round,
@@ -63,6 +58,15 @@ function Room() {
     updateDatabase(path + '/currentRound', round + 1)
   }
 
+  const handleReplay = () => {
+    const path = 'rooms/' + id
+    
+    playerList.forEach(function (player) {
+        updateDatabase((path + '/playerKeys/' + player.key + '/isReady'), false);
+    })
+    updateDatabase((path + '/questions'), getGameQuestions(roundCount));
+    updateDatabase((path + '/currentRound'), 0);
+  }
 
   if (endGame) {
     return (
@@ -79,7 +83,7 @@ function Room() {
             userKey={userKey}
             isHost={isHost}
             id={id}
-            roundCount={roundCount}
+            handleReplay={handleReplay}
           />
 
         </div>
