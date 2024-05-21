@@ -1,3 +1,10 @@
+.display-box {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .home-box {
     display: flex;
     flex-direction: column;
@@ -10,14 +17,8 @@
     color: #f0f8ff;
     font-size: 30px;
     padding: 2rem;
-}
+    padding-top: 3rem;
 
-.display-container {
-    display: flex;
-    justify-content: center;
-    font-size: 59px;
-    text-align: center;
-    color: aliceblue;
 }
 
 .go-button {
@@ -196,8 +197,5 @@
 @media screen and (max-width: 380px) {
     .go-button {
         width: 200px;
-    }
-    .display-container {
-        font-size: 50px
     }
 }

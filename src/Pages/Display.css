@@ -1,0 +1,42 @@
+.home-container {
+    display: flex;
+    justify-content:center;
+    text-align: center;
+    font-size: 59px;
+    color: aliceblue;
+}
+
+.display-container {
+    display: flex;
+    justify-content:space-between;
+    font-size: 59px;
+    width: 85vw;
+    color: aliceblue;
+}
+
+.display-message {
+    padding-left: 0rem;
+    padding-bottom: .25rem;
+}
+
+.home-icon {
+    align-self: center;
+    min-width: 59px;
+}
+
+.home-icon:hover {
+    fill: #f0f8ff;
+}
+
+@media screen and (max-width: 560px) {
+    .display-container {
+        width: 90vw;
+        font-size: 50px;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .display-container {
+        font-size: 40px;
+    }
+}

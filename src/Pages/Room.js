@@ -1,8 +1,7 @@
 import React from 'react';
 import './Room.css';
 import { calculateScore } from '../utils/questions.js';
-
-//TODO: figure out how to turn this into one import if possible/recommended
+import Display from './Display.js'
 import AnswerBox from './GameComponents/AnswerBox.js'
 import InputBox from './GameComponents/InputBox.js'
 import Leaderboard from './GameComponents/Leaderboard.js'
@@ -71,9 +70,14 @@ function Room() {
   if (endGame) {
     return (
       <div className="room-box">
-        <div className="name-display">
+        <Display
+          path={"/rooms/" + id + "/playerKeys/" + userKey + "/hasQuit"}
+          enableHome={true}
+          message={self.displayName}
+        />
+        {/* <div className="name-display">
           { self.displayName }
-        </div>
+        </div> */}
         <div className="game-box">
           <ResultInfo 
             self={self}
@@ -99,9 +103,11 @@ function Room() {
 
   return (
     <div className="room-box">
-      <div className="name-display">
-        { self.displayName }
-      </div>
+      <Display
+          path={"/rooms/" + id + "/playerKeys/" + userKey + "/hasQuit"}
+          enableHome={true}
+          message={self.displayName}
+      />
       <div className="game-box">
         <QuestionBox
           currQuestion={currQuestion}

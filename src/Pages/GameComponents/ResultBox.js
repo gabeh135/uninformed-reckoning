@@ -20,7 +20,6 @@ export const ResultBox = ({ playerList, userKey, isHost, id, handleReplay }) => 
 
         onValue(ref(db, 'rooms/' + id + '/playerKeys/' + userKey), (snapshot) => {
             const playerSnapshot = snapshot.val();
-            console.log(playerSnapshot)
             if (playerSnapshot.isReady == false) {
                 navigate('/lobbies/' + id, { state: { isHost: isHost, hostKey: hostKey } });
             }
@@ -44,17 +43,7 @@ export const ResultBox = ({ playerList, userKey, isHost, id, handleReplay }) => 
         const scoreMessage = (winner.key === userKey) ? "You" : "They"
         return scoreMessage + " had " + winner.score + " points"
     }
-
-    // const handleReplay = () => {
-    //     const path = 'rooms/' + id
-        
-    //     playerList.forEach(function (player) {
-    //         updateDatabase((path + '/playerKeys/' + player.key + '/isReady'), false);
-    //     })
-    //     updateDatabase((path + '/questions'), getGameQuestions(roundCount));
-    //     updateDatabase((path + '/currentRound'), 0);
-    // }
-
+    
     return (
         <div className="result-box">
             <div className="resultContainer">

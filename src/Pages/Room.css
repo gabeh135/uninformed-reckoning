@@ -22,15 +22,6 @@
   font-size: 30px;
 }
 
-.name-display {
-  display: flex;
-  justify-content: center;
-  padding-top: 0.5rem;
-  font-size: 45px;
-  text-align: center;
-  color: aliceblue;
-}
-
 @media screen and (max-width: 850px) {
   .game-box {
       min-height: 70vh;

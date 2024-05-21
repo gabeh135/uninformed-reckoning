@@ -2,17 +2,27 @@ import { useEffect, useState } from 'react'
 import { snapshotToArray, getUserKeyForRoom } from './utils'
 import { db } from './firebase'
 import { get, child, ref, onValue } from 'firebase/database'
+import { useNavigate } from 'react-router-dom'
 
 const defaultSource = 'https:www.wikipedia.org'
 
 export const useGamePlayers = (id) => {
   const [playerList, setPlayerList] = useState([])
   const [self, setSelf] = useState([])
+  const navigate = useNavigate()
+
   useEffect(() => {
     const userKey = getUserKeyForRoom(id)
     const playersRef = ref(db, 'rooms/' + id + '/playerKeys');
     onValue(playersRef, (snapshot) => {
-      const players = snapshotToArray(snapshot)
+      const playerList = snapshotToArray(snapshot)
+      if (playerList.filter((player) => (
+        (player.isHost | (player.key === userKey)) & 
+         player.hasQuit)).length !== 0) navigate("/")
+      
+      const players = playerList.filter((player) => (
+        player.hasQuit === false))
+
       setPlayerList(players)
       const user = players.find((element) => { 
         return element.key === userKey 
@@ -34,7 +44,6 @@ export const useGameData = (id) => {
   const [gameRun, setGameRun] = useState(true)
   const [endGame, setEndGame] = useState(false)
   const [timerCount, setTimerCount] = useState(20)
-  const [data, setData] = useState(); 
   var time = 20;
 
   useEffect(() => {
