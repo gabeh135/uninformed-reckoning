@@ -72,6 +72,9 @@
     .infoContainer {
         font-size: 40px;
     }
+    .newButton {
+        margin-top: .5rem;
+    }
     .prompt {
         width: 80vw;
         font-size: 40px;

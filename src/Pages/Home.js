@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Home.css';
+import Display from './Display.js';
 import { useNavigate } from 'react-router-dom'
 import { createNewRoom, getHostRoomID, getUserKeyForRoom, verifyUserName, writeToDatabase } from '../utils/utils';
 import { db } from '../utils/firebase';
@@ -43,6 +44,7 @@ function Home() {
             score: 0,
             isReady: false,
             isHost: hostToggle,
+            hasQuit: false,
             currentAnswer: "",
             displayName: verifyUserName(name)
         });
@@ -50,10 +52,12 @@ function Home() {
     }
 
     return (
-        <div>
-            <div className="display-container">
-                Uninformed Reckoning
-            </div>
+        <div className="display-box">
+            
+            <Display
+                message={"Uninformed Reckoning"}
+                enableHome={false}
+            />
             <div className="home-box">
                 <div className="toggle-container">
                     <button
